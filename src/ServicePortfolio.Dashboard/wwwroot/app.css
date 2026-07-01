@@ -74,6 +74,30 @@ body {
     color: #64748b;
 }
 
+.empty-state {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 28px;
+    color: #475569;
+}
+
+.empty-state h2 {
+    margin: 0 0 8px;
+    color: #1e293b;
+    font-size: 1.1rem;
+}
+
+.empty-state p {
+    margin: 0;
+    line-height: 1.7;
+}
+
+.empty-state--error {
+    border-color: #fecaca;
+    background: #fff7f7;
+}
+
 /* KPI Grid */
 .section-kpi {
     flex-shrink: 0;
@@ -100,6 +124,10 @@ body {
     border-left: 4px solid #3b82f6;
 }
 
+.kpi-card--meta {
+    border-left-color: #64748b;
+}
+
 .kpi-label {
     font-size: 0.78rem;
     color: #64748b;
@@ -112,6 +140,12 @@ body {
     font-size: 1.6rem;
     font-weight: 700;
     color: #1e293b;
+}
+
+.kpi-value--small {
+    font-size: 0.98rem;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
 }
 
 .kpi-unit {
@@ -264,6 +298,16 @@ body {
     border-left: 3px solid #6366f1;
 }
 
+.ai-generated-note {
+    margin: 10px 0 0;
+    color: #475569;
+    font-size: 0.86rem;
+    line-height: 1.7;
+    padding: 10px 12px;
+    background: #f8fafc;
+    border-radius: 8px;
+}
+
 /* Priority Metrics */
 .priority-metrics-grid {
     display: grid;
@@ -320,6 +364,35 @@ body {
     padding: 10px 4px;
     border-top: 1px solid #f1f5f9;
     flex-wrap: wrap;
+}
+
+.score-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.score-item {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 8px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.score-label {
+    font-size: 0.74rem;
+    color: #64748b;
+}
+
+.score-value {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #1d4ed8;
 }
 
 /* Orange tag */
@@ -463,9 +536,22 @@ body {
 }
 
 .risk-item {
-    color: #dc2626;
+    color: #7f1d1d;
     font-size: 0.85rem;
     font-weight: 500;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+    padding: 10px 12px;
+}
+
+.risk-item span,
+.risk-item p {
+    display: block;
+    margin: 4px 0 0;
+    color: #991b1b;
+    font-weight: 400;
+    line-height: 1.5;
 }
 
 /* Decision Text */
@@ -478,6 +564,128 @@ body {
     background: #f0fdf4;
     border-radius: 8px;
     border-left: 4px solid #22c55e;
+}
+
+.evidence-list,
+.asset-list,
+.gap-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.evidence-card,
+.asset-card,
+.gap-card {
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    background: #f8fafc;
+    padding: 12px;
+    color: #334155;
+    font-size: 0.84rem;
+}
+
+.evidence-card strong,
+.asset-card strong,
+.gap-card strong {
+    display: block;
+    color: #1e293b;
+    margin-bottom: 4px;
+}
+
+.evidence-card span,
+.asset-card span,
+.gap-card span {
+    display: block;
+    color: #64748b;
+    font-size: 0.78rem;
+    margin-bottom: 4px;
+}
+
+.evidence-card p,
+.asset-card p,
+.gap-card p {
+    margin: 6px 0 0;
+    line-height: 1.55;
+}
+
+.asset-card {
+    position: relative;
+}
+
+.readiness-score {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    background: #dbeafe;
+    color: #1d4ed8 !important;
+    font-weight: 700;
+}
+
+.next-action {
+    color: #1d4ed8;
+}
+
+.business-model-box,
+.decision-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.business-model-box span,
+.decision-meta span {
+    background: #eff6ff;
+    color: #1d4ed8;
+    border: 1px solid #bfdbfe;
+    border-radius: 18px;
+    padding: 5px 10px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.decision-lists,
+.factor-columns {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.factor-columns {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.decision-lists div,
+.factor-columns div {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 10px 12px;
+}
+
+.decision-lists h4,
+.factor-columns h4 {
+    margin: 0 0 6px;
+    color: #1e293b;
+    font-size: 0.82rem;
+}
+
+.decision-lists ul,
+.factor-columns ul {
+    margin: 0;
+    padding-left: 16px;
+    color: #475569;
+    font-size: 0.82rem;
+    line-height: 1.55;
 }
 
 /* ===== Agent Chat Panel ===== */

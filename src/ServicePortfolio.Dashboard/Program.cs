@@ -6,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-builder.Services.AddScoped<IDashboardDataService, MockDashboardDataService>();
+builder.Services.AddScoped<IDashboardDataService, JsonDashboardDataService>();
 builder.Services.AddScoped<IAgentChatService, FakeAgentChatService>();
 
 var app = builder.Build();

@@ -7,6 +7,20 @@
             <p>ダッシュボードデータを読み込んでいます...</p>
         </div>
     }
+    else if (_summary.HasError)
+    {
+        <div class="empty-state empty-state--error">
+            <h2>分析結果がありません</h2>
+            <p>@_summary.ErrorMessage</p>
+        </div>
+    }
+    else if (!_summary.HasAnalysisResults)
+    {
+        <div class="empty-state">
+            <h2>分析結果がありません</h2>
+            <p>Portfolio Analysis Workload の生成結果に候補データが含まれていません。</p>
+        </div>
+    }
     else
     {
         <section class="section-kpi">
@@ -27,6 +41,18 @@
                     <span class="kpi-label">受注案件 平均利益率</span>
                     <span class="kpi-value">@(_summary.AverageProfitMargin.ToString("F1"))<span class="kpi-unit">%</span></span>
                 </div>
+                <div class="kpi-card kpi-card--meta">
+                    <span class="kpi-label">最終分析日時</span>
+                    <span class="kpi-value kpi-value--small">@FormatGeneratedAt(_summary.GeneratedAt)</span>
+                </div>
+                <div class="kpi-card kpi-card--meta">
+                    <span class="kpi-label">利用モデル</span>
+                    <span class="kpi-value kpi-value--small">@FormatModel(_summary)</span>
+                </div>
+                <div class="kpi-card kpi-card--meta">
+                    <span class="kpi-label">分析ステータス</span>
+                    <span class="kpi-value kpi-value--small">@_summary.AnalysisStatus</span>
+                </div>
             </div>
         </section>
 
@@ -40,8 +66,8 @@
                         <span class="candidate-rank">@candidate.Rank</span>
                         <div class="candidate-body">
                             <span class="candidate-name">@candidate.Name</span>
-                            <span class="candidate-sub-metrics">根拠案件 @(candidate.SupportingProjects.Count)件 ｜ 受注率 @(candidate.WinRate.ToString("F0"))% ｜ 利益率 @(candidate.AverageProfitMargin.ToString("F1"))%</span>
-                            <span class="candidate-biz-model">▶ @candidate.RecommendedBusinessModel</span>
+                            <span class="candidate-sub-metrics">根拠案件 @(candidate.Metrics.SupportingProjectCount)件 ｜ 受注率 @(candidate.Metrics.WinRate.ToString("F0"))% ｜ 利益率 @(candidate.Metrics.AverageMarginRate.ToString("F1"))%</span>
+                            <span class="candidate-biz-model">▶ @candidate.RecommendedBusinessModelLabel</span>
                         </div>
                         <span class="candidate-priority-badge">優先度 @(candidate.Priority.ToString("F0"))</span>
                     </li>
@@ -64,10 +90,12 @@
 
                 <div class="detail-rationale">
                     <h3 class="detail-label">なぜ事業化候補なのか</h3>
-                    <p class="rationale-text">@_selectedCandidate.Rationale</p>
+                    <p class="rationale-text">@_selectedCandidate.BusinessReason</p>
+                    <p class="ai-generated-note">AI生成: @_selectedCandidate.ExecutiveSummary</p>
                 </div>
 
                 <div class="detail-section">
+                    <h3 class="detail-label">事業性評価</h3>
                     <div class="priority-metrics-grid">
                         <div class="priority-metric-card priority-metric-card--highlight">
                             <span class="pm-label">事業化優先度</span>
@@ -75,64 +103,164 @@
                         </div>
                         <div class="priority-metric-card">
                             <span class="pm-label">根拠案件</span>
-                            <span class="pm-value">@(_selectedCandidate.SupportingProjects.Count)<span class="pm-unit">件・@(_selectedCandidate.IndustryCount)業種</span></span>
+                            <span class="pm-value">@(_selectedCandidate.Metrics.SupportingProjectCount)<span class="pm-unit">件・@(_selectedCandidate.Metrics.IndustryCount)業種</span></span>
                         </div>
                         <div class="priority-metric-card">
-                            <span class="pm-label">再利用性</span>
-                            <span class="pm-value">@(_selectedCandidate.ReuseRatePct.ToString("F0"))<span class="pm-unit">%</span></span>
+                            <span class="pm-label">信頼度</span>
+                            <span class="pm-value">@(_selectedCandidate.Scores.Confidence)<span class="pm-unit">/ 100</span></span>
                         </div>
                     </div>
                     <div class="sub-metrics-row">
-                        <span>受注率 @(_selectedCandidate.WinRate.ToString("F1"))%</span>
-                        <span>平均利益率 @(_selectedCandidate.AverageProfitMargin.ToString("F1"))%</span>
-                        <span>工数削減率 @(_selectedCandidate.AverageEffortReductionRate.ToString("F1"))%</span>
-                        <span>受注売上 @(_selectedCandidate.TotalWonRevenueJPYBillion.ToString("F1"))億円</span>
+                        <span>受注率 @(_selectedCandidate.Metrics.WinRate.ToString("F1"))%</span>
+                        <span>平均利益率 @(_selectedCandidate.Metrics.AverageMarginRate.ToString("F1"))%</span>
+                        <span>工数削減率 @(_selectedCandidate.Metrics.AverageEffortReductionRate.ToString("F1"))%</span>
+                        <span>受注売上 @((_selectedCandidate.Metrics.WonRevenue / 100_000_000m).ToString("F1"))億円</span>
+                    </div>
+                    <div class="score-grid">
+                        @foreach (var score in GetScoreItems(_selectedCandidate))
+                        {
+                            <div class="score-item">
+                                <span class="score-label">@score.Label</span>
+                                <span class="score-value">@score.Value</span>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h3 class="detail-label">根拠となる案件</h3>
+                    <div class="evidence-list">
+                        @foreach (var project in _selectedCandidate.SupportingProjects)
+                        {
+                            <article class="evidence-card">
+                                <strong>@project.ProjectId: @project.ProjectName</strong>
+                                <span>@project.Industry</span>
+                                <p>@project.EvidenceSummary</p>
+                            </article>
+                        }
                     </div>
                 </div>
 
                 <div class="detail-section">
                     <h3 class="detail-label">再利用可能な資産</h3>
-                    <ul class="tag-list">
-                        @foreach (var asset in _selectedCandidate.ReuseAssets)
+                    <div class="asset-list">
+                        @foreach (var asset in _selectedCandidate.ReusableAssets)
                         {
-                            <li class="tag tag--blue">@asset</li>
-                        }
-                    </ul>
-                </div>
-
-                <div class="detail-section">
-                    <h3 class="detail-label">標準化に必要な整備</h3>
-                    <ul class="tag-list">
-                        @foreach (var prep in _selectedCandidate.RequiredPreparation)
-                        {
-                            <li class="tag tag--orange">@prep</li>
-                        }
-                    </ul>
-                </div>
-
-                <div class="detail-section">
-                    <h3 class="detail-label">資産化ステージ</h3>
-                    <div class="stage-track">
-                        @for (int i = 0; i < _stages.Length; i++)
-                        {
-                            var idx = i;
-                            var stageClass = idx == _selectedCandidate.AssetizationStageIndex
-                                ? "stage-step stage-step--active"
-                                : idx < _selectedCandidate.AssetizationStageIndex
-                                    ? "stage-step stage-step--done"
-                                    : "stage-step";
-                            <span class="@stageClass">@_stages[idx]</span>
-                            if (idx < _stages.Length - 1)
-                            {
-                                <span class="stage-arrow">→</span>
-                            }
+                            <article class="asset-card">
+                                <div>
+                                    <strong>@asset.Name</strong>
+                                    <span>@asset.Type / @asset.OccurrenceCount of @asset.TotalProjectCount</span>
+                                </div>
+                                <span class="readiness-score">@asset.ReadinessScore</span>
+                                <p>@asset.CurrentState</p>
+                                <p class="next-action">次: @asset.NextAction</p>
+                            </article>
                         }
                     </div>
                 </div>
 
                 <div class="detail-section">
+                    <h3 class="detail-label">標準化・SaaS化ギャップ</h3>
+                    <div class="gap-list">
+                        @foreach (var gap in _selectedCandidate.StandardizationGaps)
+                        {
+                            <article class="gap-card">
+                                <strong>@gap.Category</strong>
+                                <p>現在: @gap.CurrentState</p>
+                                <p>目標: @gap.TargetState</p>
+                                <span>優先度 @gap.Priority / 工数 @gap.Effort</span>
+                                <span>依存: @gap.Dependency</span>
+                            </article>
+                        }
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h3 class="detail-label">主要リスク</h3>
+                    <ul class="risk-list">
+                        @foreach (var risk in _selectedCandidate.Risks)
+                        {
+                            <li class="risk-item">
+                                <strong>@risk.Name</strong>
+                                <span>影響: @risk.Impact / 発生可能性: @risk.Likelihood</span>
+                                <p>@risk.Mitigation</p>
+                            </li>
+                        }
+                    </ul>
+                </div>
+
+                <div class="detail-section">
+                    <h3 class="detail-label">推奨事業モデル</h3>
+                    <div class="business-model-box">
+                        <span>@_selectedCandidate.RecommendedBusinessModel.Current</span>
+                        <span>→</span>
+                        <span>@_selectedCandidate.RecommendedBusinessModel.Next</span>
+                        <span>→</span>
+                        <span>@_selectedCandidate.RecommendedBusinessModel.FutureOption</span>
+                    </div>
+                    <p class="rationale-text">@_selectedCandidate.RecommendedBusinessModel.Rationale</p>
+                </div>
+
+                <div class="detail-section">
                     <h3 class="detail-label">次に必要な経営判断</h3>
-                    <p class="decision-text">@_selectedCandidate.NextManagementDecision</p>
+                    <p class="decision-text">@_selectedCandidate.ManagementDecision.Decision</p>
+                    <div class="decision-meta">
+                        <span>投資規模: @_selectedCandidate.ManagementDecision.InvestmentLevel</span>
+                        <span>時間軸: @_selectedCandidate.ManagementDecision.TimeHorizon</span>
+                    </div>
+                    <div class="decision-lists">
+                        <div>
+                            <h4>90日以内の推奨アクション</h4>
+                            <ul>
+                                @foreach (var action in _selectedCandidate.ManagementDecision.Next90Days)
+                                {
+                                    <li>@action</li>
+                                }
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>成功条件</h4>
+                            <ul>
+                                @foreach (var criterion in _selectedCandidate.ManagementDecision.SuccessCriteria)
+                                {
+                                    <li>@criterion</li>
+                                }
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>中止・見直し条件</h4>
+                            <ul>
+                                @foreach (var criterion in _selectedCandidate.ManagementDecision.StopOrReviewCriteria)
+                                {
+                                    <li>@criterion</li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h3 class="detail-label">成功・失敗要因</h3>
+                    <div class="factor-columns">
+                        <div>
+                            <h4>成功要因</h4>
+                            <ul>
+                                @foreach (var factor in _selectedCandidate.SuccessFactors)
+                                {
+                                    <li>@factor</li>
+                                }
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>失敗・遅延要因</h4>
+                            <ul>
+                                @foreach (var factor in _selectedCandidate.FailureFactors)
+                                {
+                                    <li>@factor</li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </section>
         }
@@ -143,9 +271,6 @@
     [Parameter] public EventCallback<ServiceCandidate> OnAskAIClicked { get; set; }
 
     [Inject] private IDashboardDataService DashboardDataService { get; set; } = default!;
-
-    private static readonly string[] _stages =
-        ["案件実績確認済み", "共通機能抽出済み", "標準化設計", "パイロット提供", "SaaS化判断"];
 
     private DashboardSummary? _summary;
     private ServiceCandidate? _selectedCandidate;
@@ -161,9 +286,22 @@
         _selectedCandidate = candidate;
     }
 
-    private async Task OnAskAI()
-    {
-        if (_selectedCandidate is not null)
-            await OnAskAIClicked.InvokeAsync(_selectedCandidate);
-    }
+    private static string FormatGeneratedAt(DateTimeOffset? generatedAt) =>
+        generatedAt?.ToLocalTime().ToString("yyyy/MM/dd HH:mm") ?? "未生成";
+
+    private static string FormatModel(DashboardSummary summary) =>
+        string.IsNullOrWhiteSpace(summary.ModelDeployment)
+            ? summary.ModelProvider
+            : $"{summary.ModelProvider} / {summary.ModelDeployment}";
+
+    private static IReadOnlyList<(string Label, int Value)> GetScoreItems(ServiceCandidate candidate) =>
+    [
+        ("収益性", candidate.Scores.Profitability),
+        ("再利用性", candidate.Scores.Reusability),
+        ("標準化", candidate.Scores.Standardization),
+        ("継続収益", candidate.Scores.RecurringRevenue),
+        ("SaaS適合", candidate.Scores.SaasReadiness),
+        ("実現性", candidate.Scores.Feasibility),
+        ("信頼度", candidate.Scores.Confidence)
+    ];
 }
