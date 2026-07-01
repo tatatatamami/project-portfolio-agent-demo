@@ -1,0 +1,141 @@
+@using ServicePortfolio.Dashboard.Models
+
+<div class="cockpit-panel">
+    @if (_summary is null)
+    {
+        <div class="loading">
+            <p>ダッシュボードデータを読み込んでいます...</p>
+        </div>
+    }
+    else
+    {
+        <div class="kpi-grid">
+            <div class="kpi-card">
+                <span class="kpi-label">対象案件数</span>
+                <span class="kpi-value">@_summary.TotalProjects<span class="kpi-unit">件</span></span>
+            </div>
+            <div class="kpi-card">
+                <span class="kpi-label">サービス候補数</span>
+                <span class="kpi-value">@_summary.ServiceCandidateCount<span class="kpi-unit">件</span></span>
+            </div>
+            <div class="kpi-card">
+                <span class="kpi-label">受注案件売上合計</span>
+                <span class="kpi-value">@(_summary.TotalContractedSales.ToString("N0"))<span class="kpi-unit">円</span></span>
+            </div>
+            <div class="kpi-card">
+                <span class="kpi-label">受注案件 平均利益率</span>
+                <span class="kpi-value">@(_summary.AverageProfitMargin.ToString("F1"))<span class="kpi-unit">%</span></span>
+            </div>
+        </div>
+
+        <section class="section-candidates">
+            <h2 class="section-title">サービス候補ランキング</h2>
+            <ol class="candidate-list">
+                @foreach (var candidate in _summary.ServiceCandidates)
+                {
+                    <li class="@(candidate.Rank == 1 ? "candidate-item candidate-item--top" : "candidate-item")"
+                        @onclick="() => SelectCandidate(candidate)">
+                        <span class="candidate-rank">@candidate.Rank</span>
+                        <span class="candidate-name">@candidate.Name</span>
+                        <span class="candidate-winrate">受注率 @(candidate.WinRate.ToString("F1"))%</span>
+                    </li>
+                }
+            </ol>
+        </section>
+
+        @if (_selectedCandidate is not null)
+        {
+            <section class="section-detail">
+                <div class="detail-header">
+                    <h2 class="section-title">
+                        @if (_selectedCandidate.Rank == 1)
+                        {
+                            <span class="badge-top">最優先</span>
+                        }
+                        @_selectedCandidate.Name
+                    </h2>
+                </div>
+
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <span class="metric-label">受注率</span>
+                        <span class="metric-value">@(_selectedCandidate.WinRate.ToString("F1"))<span class="metric-unit">%</span></span>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-label">平均利益率</span>
+                        <span class="metric-value">@(_selectedCandidate.AverageProfitMargin.ToString("F1"))<span class="metric-unit">%</span></span>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-label">平均工数削減率</span>
+                        <span class="metric-value">@(_selectedCandidate.AverageEffortReductionRate.ToString("F1"))<span class="metric-unit">%</span></span>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h3 class="detail-label">根拠案件</h3>
+                    <ul class="tag-list">
+                        @foreach (var project in _selectedCandidate.SupportingProjects)
+                        {
+                            <li class="tag">@project</li>
+                        }
+                    </ul>
+                </div>
+
+                <div class="detail-section">
+                    <h3 class="detail-label">共通要件</h3>
+                    <ul class="tag-list">
+                        @foreach (var req in _selectedCandidate.CommonRequirements)
+                        {
+                            <li class="tag tag--blue">@req</li>
+                        }
+                    </ul>
+                </div>
+
+                <div class="detail-section">
+                    <h3 class="detail-label">主要リスク</h3>
+                    <ul class="risk-list">
+                        @foreach (var risk in _selectedCandidate.MajorRisks)
+                        {
+                            <li class="risk-item">⚠ @risk</li>
+                        }
+                    </ul>
+                </div>
+
+                <div class="detail-section">
+                    <h3 class="detail-label">次に必要な経営判断</h3>
+                    <p class="decision-text">@_selectedCandidate.NextManagementDecision</p>
+                </div>
+
+                <button class="btn-ask-ai" @onclick="OnAskAI">
+                    🤖 AIに詳細を質問
+                </button>
+            </section>
+        }
+    }
+</div>
+
+@code {
+    [Parameter] public EventCallback<ServiceCandidate> OnAskAIClicked { get; set; }
+
+    [Inject] private IDashboardDataService DashboardDataService { get; set; } = default!;
+
+    private DashboardSummary? _summary;
+    private ServiceCandidate? _selectedCandidate;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _summary = await DashboardDataService.GetDashboardSummaryAsync();
+        _selectedCandidate = _summary.ServiceCandidates.FirstOrDefault();
+    }
+
+    private void SelectCandidate(ServiceCandidate candidate)
+    {
+        _selectedCandidate = candidate;
+    }
+
+    private async Task OnAskAI()
+    {
+        if (_selectedCandidate is not null)
+            await OnAskAIClicked.InvokeAsync(_selectedCandidate);
+    }
+}
