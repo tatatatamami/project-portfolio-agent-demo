@@ -1,0 +1,21 @@
+{
+  "runId": "c69f97f7-f669-462b-9a5a-969b287eaef8",
+  "status": "passed",
+  "generatedAt": "2026-07-01T23:04:41.349772+00:00",
+  "inputDir": "test-data",
+  "outputDir": "analysis\\output",
+  "modelProvider": "azure-openai",
+  "modelDeployment": "gpt-4.1",
+  "llmCallCount": 3,
+  "candidateCount": 3,
+  "source": {
+    "projectCount": 12,
+    "wonCount": 10,
+    "lostCount": 2,
+    "documentCount": 38
+  },
+  "validation": {
+    "status": "passed",
+    "issueCount": 0
+  }
+}

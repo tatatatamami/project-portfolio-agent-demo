@@ -1,0 +1,686 @@
+{
+  "analysisRun": {
+    "runId": "c69f97f7-f669-462b-9a5a-969b287eaef8",
+    "status": "completed",
+    "generatedAt": "2026-07-01T23:04:41.349772+00:00",
+    "sourceProjectCount": 12,
+    "modelProvider": "azure-openai",
+    "modelDeployment": "gpt-4.1",
+    "promptVersion": "v1"
+  },
+  "dashboardSummary": {
+    "projectCount": 12,
+    "candidateCount": 3,
+    "wonRevenue": 4780000000,
+    "averageMarginRate": 28.1
+  },
+  "candidates": [
+    {
+      "candidateId": "CAND-001",
+      "rank": 1,
+      "name": "AIデータ活用基盤オファリング",
+      "executiveSummary": "本オファリングは製造、流通、小売、メディア、物流の4業種で4件の案件実績があり、全案件で受注（Win Rate 100%）、平均利益率32%、平均工数削減率35.8%と高い収益性と効率性を示しています。共通要素の再利用性が高く、今後の標準化・事業化に向けた基盤として有望です。",
+      "businessReason": "複数業種での受注実績と高い利益率、工数削減効果から、標準オファリングとしての展開による収益拡大と効率化が期待できます。共通要素の多さから再利用資産化の効果も高いと推定されます。",
+      "scores": {
+        "priority": 92,
+        "profitability": 100,
+        "reusability": 96,
+        "standardization": 74,
+        "recurringRevenue": 96,
+        "saasReadiness": 74,
+        "feasibility": 100,
+        "confidence": 100
+      },
+      "metrics": {
+        "supportingProjectCount": 4,
+        "industryCount": 4,
+        "winRate": 100.0,
+        "averageMarginRate": 32.0,
+        "averageEffortReductionRate": 35.8,
+        "wonRevenue": 2190000000
+      },
+      "recommendedBusinessModel": {
+        "current": "Standard Offering",
+        "next": "Managed Service",
+        "futureOption": "SaaS（推定）",
+        "rationale": "現状は標準オファリングとして複数業種で展開可能。運用・保守まで含めたManaged Service化で継続収益を強化し、将来的にはSaaS化も選択肢となるが、現時点でのSaaS化は標準化・運用要件の追加検討が必要。"
+      },
+      "supportingProjects": [
+        {
+          "projectId": "P005",
+          "projectName": "Predictive Maintenance Data Platform",
+          "industry": "Manufacturing",
+          "evidenceSummary": "AI-ready Data Foundation に関する Won 案件。3 件の案件文書を根拠として利用。",
+          "sourceIds": [
+            "DOC-P005-RETRO",
+            "DOC-P005-RFP",
+            "DOC-P005-SOL"
+          ]
+        },
+        {
+          "projectId": "P007",
+          "projectName": "Retail Demand Forecast Platform",
+          "industry": "Retail",
+          "evidenceSummary": "AI-ready Data Foundation に関する Won 案件。3 件の案件文書を根拠として利用。",
+          "sourceIds": [
+            "DOC-P007-RETRO",
+            "DOC-P007-RFP",
+            "DOC-P007-SOL"
+          ]
+        },
+        {
+          "projectId": "P009",
+          "projectName": "Content Metadata Knowledge Platform",
+          "industry": "Media",
+          "evidenceSummary": "AI-ready Data Foundation に関する Won 案件。3 件の案件文書を根拠として利用。",
+          "sourceIds": [
+            "DOC-P009-RETRO",
+            "DOC-P009-RFP",
+            "DOC-P009-SOL"
+          ]
+        },
+        {
+          "projectId": "P012",
+          "projectName": "Fleet Analytics Lakehouse",
+          "industry": "Logistics",
+          "evidenceSummary": "AI-ready Data Foundation に関する Won 案件。3 件の案件文書を根拠として利用。",
+          "sourceIds": [
+            "DOC-P012-RETRO",
+            "DOC-P012-RFP",
+            "DOC-P012-SOL"
+          ]
+        }
+      ],
+      "reusableAssets": [
+        {
+          "name": "Unified Data Model",
+          "type": "Requirement",
+          "occurrenceCount": 4,
+          "totalProjectCount": 4,
+          "readinessScore": 96,
+          "currentState": "全案件で共通要件として実装済み",
+          "nextAction": "標準テンプレート化とドキュメント整備",
+          "sourceIds": [
+            "DOC-P005-RETRO",
+            "DOC-P007-RETRO",
+            "DOC-P009-RETRO",
+            "DOC-P012-RETRO"
+          ]
+        },
+        {
+          "name": "Data Quality Rules",
+          "type": "Requirement",
+          "occurrenceCount": 4,
+          "totalProjectCount": 4,
+          "readinessScore": 96,
+          "currentState": "全案件で共通要件として実装済み",
+          "nextAction": "ルールセットの標準化と自動化ツール化検討",
+          "sourceIds": [
+            "DOC-P005-RETRO",
+            "DOC-P007-RETRO",
+            "DOC-P009-RETRO",
+            "DOC-P012-RETRO"
+          ]
+        },
+        {
+          "name": "Lakehouse",
+          "type": "Feature",
+          "occurrenceCount": 4,
+          "totalProjectCount": 4,
+          "readinessScore": 96,
+          "currentState": "全案件で共通機能として導入済み",
+          "nextAction": "リファレンスアーキテクチャ化",
+          "sourceIds": [
+            "DOC-P005-SOL",
+            "DOC-P007-SOL",
+            "DOC-P009-SOL",
+            "DOC-P012-SOL"
+          ]
+        },
+        {
+          "name": "Semantic Model",
+          "type": "Requirement/Feature",
+          "occurrenceCount": 4,
+          "totalProjectCount": 4,
+          "readinessScore": 96,
+          "currentState": "全案件で共通要件・機能として実装済み",
+          "nextAction": "業種別拡張パターンの整理",
+          "sourceIds": [
+            "DOC-P005-RETRO",
+            "DOC-P007-RETRO",
+            "DOC-P009-RETRO",
+            "DOC-P012-RETRO"
+          ]
+        }
+      ],
+      "standardizationGaps": [
+        {
+          "category": "運用・保守プロセス",
+          "currentState": "案件ごとに個別設計・運用",
+          "targetState": "標準運用プロセス・ツールの整備",
+          "effort": "運用設計・自動化ツール開発",
+          "priority": "高",
+          "dependency": "既存案件の運用実績フィードバック"
+        },
+        {
+          "category": "データ連携インターフェース",
+          "currentState": "案件ごとに個別実装",
+          "targetState": "標準API・コネクタの提供",
+          "effort": "API設計・共通部品開発",
+          "priority": "中",
+          "dependency": "主要システムとの連携要件整理"
+        }
+      ],
+      "successFactors": [
+        "業種横断での共通要素の標準化推進",
+        "運用・保守まで含めたサービス設計",
+        "顧客のデータガバナンス体制支援"
+      ],
+      "failureFactors": [
+        "個別要件への過度なカスタマイズ要求",
+        "標準化の遅れによるコスト増大",
+        "データ品質・所有権の不明確化"
+      ],
+      "risks": [
+        {
+          "name": "Source Inconsistency",
+          "impact": "データ統合の品質低下・運用コスト増加",
+          "likelihood": "高",
+          "mitigation": "データ品質ルールの標準化と自動検証の導入",
+          "sourceIds": [
+            "DOC-P005-RETRO",
+            "DOC-P007-RETRO",
+            "DOC-P009-RETRO",
+            "DOC-P012-RETRO"
+          ]
+        },
+        {
+          "name": "Unclear Data Ownership",
+          "impact": "運用トラブル・責任所在不明化",
+          "likelihood": "中",
+          "mitigation": "データガバナンス体制の標準化支援",
+          "sourceIds": [
+            "DOC-P005-RETRO",
+            "DOC-P007-RETRO",
+            "DOC-P009-RETRO",
+            "DOC-P012-RETRO"
+          ]
+        },
+        {
+          "name": "Ingestion Delay",
+          "impact": "リアルタイム性要件未達・顧客満足度低下",
+          "likelihood": "中",
+          "mitigation": "データパイプラインの監視・自動リカバリ機能強化",
+          "sourceIds": [
+            "DOC-P005-SOL",
+            "DOC-P007-SOL",
+            "DOC-P009-SOL",
+            "DOC-P012-SOL"
+          ]
+        },
+        {
+          "name": "Capacity Cost Growth",
+          "impact": "運用コスト増加・利益率低下",
+          "likelihood": "中",
+          "mitigation": "ストレージ最適化とコスト監視機能の実装",
+          "sourceIds": [
+            "DOC-P005-SOL",
+            "DOC-P007-SOL",
+            "DOC-P009-SOL",
+            "DOC-P012-SOL"
+          ]
+        }
+      ],
+      "managementDecision": {
+        "decision": "標準オファリングとして事業化を推進し、運用・保守領域の標準化・サービス化に投資する",
+        "investmentLevel": "中規模（標準化・運用自動化ツール開発への投資）",
+        "timeHorizon": "12ヶ月",
+        "next90Days": [
+          "標準運用プロセス設計の着手",
+          "共通要素のテンプレート化推進",
+          "運用自動化ツールの要件定義",
+          "既存案件からのフィードバック収集"
+        ],
+        "successCriteria": [
+          "標準オファリングとして新規案件2件以上の受注",
+          "運用・保守領域の標準化プロセス完成",
+          "再利用資産の活用率向上"
+        ],
+        "stopOrReviewCriteria": [
+          "標準化推進の遅延が3ヶ月以上発生",
+          "新規案件受注がゼロの場合",
+          "運用コスト増加による利益率低下"
+        ]
+      }
+    },
+    {
+      "candidateId": "CAND-002",
+      "rank": 2,
+      "name": "APIモダナイゼーション・アクセラレータ",
+      "executiveSummary": "APIモダナイゼーション・アクセラレータは、4業界・4案件で共通要素の高いAPI基盤構築を支援し、平均30.3%の工数削減と高い利益率（28.3%）を実現しています。再利用性・収益性・優先度が高く、標準化・SaaS化の余地もあります。現状はStandard Offeringとしての実績が中心です。",
+      "businessReason": "複数業界で共通要素（認証、レート制限、監査ログ等）が繰り返し要求されており、API Gatewayや認証連携などの機能も全案件で実装されています。これにより、再利用資産化による開発効率向上と利益率維持が期待できます。",
+      "scores": {
+        "priority": 88,
+        "profitability": 90,
+        "reusability": 96,
+        "standardization": 74,
+        "recurringRevenue": 90,
+        "saasReadiness": 68,
+        "feasibility": 92,
+        "confidence": 100
+      },
+      "metrics": {
+        "supportingProjectCount": 4,
+        "industryCount": 4,
+        "winRate": 75.0,
+        "averageMarginRate": 28.3,
+        "averageEffortReductionRate": 30.3,
+        "wonRevenue": 1500000000
+      },
+      "recommendedBusinessModel": {
+        "current": "Standard Offering",
+        "next": "Managed Service",
+        "futureOption": "SaaS（推定）",
+        "rationale": "現状は個別案件向けのStandard Offeringが主流ですが、運用・保守まで含めたManaged Serviceへの拡張が現実的です。SaaS化は要件の多様性や標準化ギャップを解消した後の選択肢となります。"
+      },
+      "supportingProjects": [
+        {
+          "projectId": "P001",
+          "projectName": "Game LiveOps API Modernization",
+          "industry": "Gaming",
+          "evidenceSummary": "API Modernization に関する Won 案件。3 件の案件文書を根拠として利用。",
+          "sourceIds": [
+            "DOC-P001-RETRO",
+            "DOC-P001-RFP",
+            "DOC-P001-SOL"
+          ]
+        },
+        {
+          "projectId": "P003",
+          "projectName": "Partner API Platform",
+          "industry": "Telecommunications",
+          "evidenceSummary": "API Modernization に関する Won 案件。3 件の案件文書を根拠として利用。",
+          "sourceIds": [
+            "DOC-P003-RETRO",
+            "DOC-P003-RFP",
+            "DOC-P003-SOL"
+          ]
+        },
+        {
+          "projectId": "P006",
+          "projectName": "ERP Integration Modernization",
+          "industry": "Manufacturing",
+          "evidenceSummary": "API Modernization に関する Lost 案件。3 件の案件文書を根拠として利用。",
+          "sourceIds": [
+            "DOC-P006-BIDR",
+            "DOC-P006-PROP",
+            "DOC-P006-RFP"
+          ]
+        },
+        {
+          "projectId": "P011",
+          "projectName": "Logistics Event API Platform",
+          "industry": "Logistics",
+          "evidenceSummary": "API Modernization に関する Won 案件。3 件の案件文書を根拠として利用。",
+          "sourceIds": [
+            "DOC-P011-RETRO",
+            "DOC-P011-RFP",
+            "DOC-P011-SOL"
+          ]
+        }
+      ],
+      "reusableAssets": [
+        {
+          "name": "Identity and Authentication",
+          "type": "機能要素",
+          "occurrenceCount": 4,
+          "totalProjectCount": 4,
+          "readinessScore": 96,
+          "currentState": "全案件で実装済み、標準化度高い",
+          "nextAction": "共通モジュール化・ドキュメント整備",
+          "sourceIds": [
+            "DOC-P001-RETRO",
+            "DOC-P003-RETRO",
+            "DOC-P006-BIDR",
+            "DOC-P011-RETRO"
+          ]
+        },
+        {
+          "name": "Rate Limiting",
+          "type": "機能要素",
+          "occurrenceCount": 4,
+          "totalProjectCount": 4,
+          "readinessScore": 96,
+          "currentState": "全案件で実装済み、標準化度高い",
+          "nextAction": "共通ポリシーテンプレート化",
+          "sourceIds": [
+            "DOC-P001-RFP",
+            "DOC-P003-RFP",
+            "DOC-P006-RFP",
+            "DOC-P011-RFP"
+          ]
+        },
+        {
+          "name": "API Gateway",
+          "type": "基盤要素",
+          "occurrenceCount": 4,
+          "totalProjectCount": 4,
+          "readinessScore": 96,
+          "currentState": "全案件で利用、構成パターン共通",
+          "nextAction": "構成パターンの標準化・自動化",
+          "sourceIds": [
+            "DOC-P001-SOL",
+            "DOC-P003-SOL",
+            "DOC-P006-PROP",
+            "DOC-P011-SOL"
+          ]
+        }
+      ],
+      "standardizationGaps": [
+        {
+          "category": "APIバージョニング",
+          "currentState": "各案件で実装方法が異なる",
+          "targetState": "共通設計指針・実装テンプレート化",
+          "effort": "中",
+          "priority": "高",
+          "dependency": "API設計ガイドライン"
+        },
+        {
+          "category": "監査ログ・オブザーバビリティ",
+          "currentState": "案件ごとにログ粒度・監視方式が異なる",
+          "targetState": "共通ログスキーマ・監視基盤の定義",
+          "effort": "中",
+          "priority": "中",
+          "dependency": "運用部門との調整"
+        }
+      ],
+      "successFactors": [
+        "共通要素の高いAPI基盤要件の存在",
+        "高い再利用性と標準化度",
+        "複数業界での実績と高利益率"
+      ],
+      "failureFactors": [
+        "案件ごとの個別要件対応コスト増大",
+        "標準化ギャップの放置による運用負荷増加"
+      ],
+      "risks": [
+        {
+          "name": "Authentication Misconfiguration",
+          "impact": "セキュリティ事故・信頼失墜",
+          "likelihood": "中",
+          "mitigation": "共通認証モジュールの自動テスト強化",
+          "sourceIds": [
+            "DOC-P001-RETRO",
+            "DOC-P003-RETRO",
+            "DOC-P006-BIDR",
+            "DOC-P011-RETRO"
+          ]
+        },
+        {
+          "name": "Breaking Change",
+          "impact": "既存API利用者への影響・障害発生",
+          "likelihood": "中",
+          "mitigation": "バージョニング標準化と互換性テストの徹底",
+          "sourceIds": [
+            "DOC-P001-RFP",
+            "DOC-P003-RFP",
+            "DOC-P006-RFP",
+            "DOC-P011-RFP"
+          ]
+        }
+      ],
+      "managementDecision": {
+        "decision": "標準化資産の共通モジュール化とManaged Service化を推進する",
+        "investmentLevel": "中規模（標準化・自動化開発に限定）",
+        "timeHorizon": "6-12ヶ月",
+        "next90Days": [
+          "共通認証・レート制限モジュールの設計・実装",
+          "APIバージョニング標準の策定",
+          "監査ログ・監視基盤の共通化方針策定"
+        ],
+        "successCriteria": [
+          "標準モジュールの3案件以上での再利用",
+          "工数削減率30%以上の維持",
+          "新規案件での提案採用率向上"
+        ],
+        "stopOrReviewCriteria": [
+          "標準化資産の再利用率が50%未満の場合",
+          "個別要件対応コストが利益率を下回る場合"
+        ]
+      }
+    },
+    {
+      "candidateId": "CAND-003",
+      "rank": 3,
+      "name": "AIエージェント本番化・運用プラットフォーム",
+      "executiveSummary": "本候補は、4業種4案件で導入実績があり、共通要件・機能の再利用性が高いAIエージェント運用基盤です。平均利益率22.9%、平均工数削減率23.0%と収益性・効率性も一定水準を確保しています。再利用性・標準化スコアが高く、今後の事業化・資産化に向けた基盤として有望です。",
+      "businessReason": "複数業種で同一要件（アクセス制御、根拠表示、評価、コンテンツ安全性、エスカレーション、モニタリング等）が繰り返し求められており、共通機能の標準化・再利用による開発効率化と品質向上が見込めます。既存案件での収益性・受注率も高く、今後の横展開や継続収益化の基盤となります。",
+      "scores": {
+        "priority": 81,
+        "profitability": 70,
+        "reusability": 96,
+        "standardization": 74,
+        "recurringRevenue": 83,
+        "saasReadiness": 68,
+        "feasibility": 88,
+        "confidence": 100
+      },
+      "metrics": {
+        "supportingProjectCount": 4,
+        "industryCount": 4,
+        "winRate": 75.0,
+        "averageMarginRate": 22.9,
+        "averageEffortReductionRate": 23.0,
+        "wonRevenue": 1090000000
+      },
+      "recommendedBusinessModel": {
+        "current": "Standard Offering（標準提供型）",
+        "next": "Managed Service（運用付加型）",
+        "futureOption": "SaaS（サブスクリプション型）",
+        "rationale": "現状は案件ごとにカスタマイズが発生しており、標準提供型での共通資産化が現実的です。運用・監視等の付加価値を加えたManaged Serviceへの移行が次段階として推奨されます。SaaS化は要件のさらなる共通化・自動化が進んだ場合の選択肢です。"
+      },
+      "supportingProjects": [
+        {
+          "projectId": "P002",
+          "projectName": "Player Support AI Agent",
+          "industry": "Gaming",
+          "evidenceSummary": "AI Agent Production に関する Won 案件。3 件の案件文書を根拠として利用。",
+          "sourceIds": [
+            "DOC-P002-RETRO",
+            "DOC-P002-RFP",
+            "DOC-P002-SOL"
+          ]
+        },
+        {
+          "projectId": "P004",
+          "projectName": "Contact Center Knowledge Agent",
+          "industry": "Telecommunications",
+          "evidenceSummary": "AI Agent Production に関する Won 案件。3 件の案件文書を根拠として利用。",
+          "sourceIds": [
+            "DOC-P004-RETRO",
+            "DOC-P004-RFP",
+            "DOC-P004-SOL"
+          ]
+        },
+        {
+          "projectId": "P008",
+          "projectName": "Store Operations AI Assistant",
+          "industry": "Retail",
+          "evidenceSummary": "AI Agent Production に関する Won 案件。3 件の案件文書を根拠として利用。",
+          "sourceIds": [
+            "DOC-P008-RETRO",
+            "DOC-P008-RFP",
+            "DOC-P008-SOL"
+          ]
+        },
+        {
+          "projectId": "P010",
+          "projectName": "Creator Support Agent",
+          "industry": "Media",
+          "evidenceSummary": "AI Agent Production に関する Lost 案件。3 件の案件文書を根拠として利用。",
+          "sourceIds": [
+            "DOC-P010-BIDR",
+            "DOC-P010-PROP",
+            "DOC-P010-RFP"
+          ]
+        }
+      ],
+      "reusableAssets": [
+        {
+          "name": "Access Control",
+          "type": "要件",
+          "occurrenceCount": 4,
+          "totalProjectCount": 4,
+          "readinessScore": 96,
+          "currentState": "全案件で実装済みだが、実装方式に差異あり",
+          "nextAction": "実装方式の統一とAPI化を推進",
+          "sourceIds": [
+            "DOC-P002-RETRO",
+            "DOC-P004-RETRO",
+            "DOC-P008-RETRO",
+            "DOC-P010-BIDR"
+          ]
+        },
+        {
+          "name": "Citation and Grounding",
+          "type": "要件",
+          "occurrenceCount": 4,
+          "totalProjectCount": 4,
+          "readinessScore": 96,
+          "currentState": "全案件で必要、実装済み",
+          "nextAction": "共通モジュール化とテスト自動化",
+          "sourceIds": [
+            "DOC-P002-RFP",
+            "DOC-P004-RFP",
+            "DOC-P008-RFP",
+            "DOC-P010-RFP"
+          ]
+        },
+        {
+          "name": "Evaluation Pipeline",
+          "type": "機能",
+          "occurrenceCount": 4,
+          "totalProjectCount": 4,
+          "readinessScore": 96,
+          "currentState": "全案件で類似機能あり",
+          "nextAction": "評価指標・プロセスの標準化",
+          "sourceIds": [
+            "DOC-P002-SOL",
+            "DOC-P004-SOL",
+            "DOC-P008-SOL",
+            "DOC-P010-PROP"
+          ]
+        },
+        {
+          "name": "Human Escalation and Monitoring",
+          "type": "機能",
+          "occurrenceCount": 4,
+          "totalProjectCount": 4,
+          "readinessScore": 96,
+          "currentState": "全案件で実装済み",
+          "nextAction": "運用手順の標準化とダッシュボード開発",
+          "sourceIds": [
+            "DOC-P002-RETRO",
+            "DOC-P004-RETRO",
+            "DOC-P008-RETRO",
+            "DOC-P010-BIDR"
+          ]
+        }
+      ],
+      "standardizationGaps": [
+        {
+          "category": "アクセス制御方式",
+          "currentState": "案件ごとに異なる実装",
+          "targetState": "統一APIによる共通化",
+          "effort": "中",
+          "priority": "高",
+          "dependency": "既存案件の運用要件"
+        },
+        {
+          "category": "評価プロセス",
+          "currentState": "案件ごとに評価指標・手順が異なる",
+          "targetState": "標準評価フレームワークの策定",
+          "effort": "中",
+          "priority": "中",
+          "dependency": "顧客要件の調整"
+        },
+        {
+          "category": "運用監視",
+          "currentState": "個別運用・手動監視が多い",
+          "targetState": "共通ダッシュボード・自動監視",
+          "effort": "高",
+          "priority": "中",
+          "dependency": "運用現場の受容性"
+        }
+      ],
+      "successFactors": [
+        "要件の共通化・標準化推進",
+        "運用・監視機能の自動化",
+        "品質・安全性（ハルシネーション・情報漏洩対策）の継続的強化"
+      ],
+      "failureFactors": [
+        "案件ごとの個別要件肥大化",
+        "標準化の遅延によるコスト増",
+        "品質・安全性リスクの顕在化"
+      ],
+      "risks": [
+        {
+          "name": "ハルシネーション",
+          "impact": "誤回答による信頼性低下",
+          "likelihood": "高",
+          "mitigation": "評価パイプラインの強化と根拠表示の徹底",
+          "sourceIds": [
+            "DOC-P002-RETRO",
+            "DOC-P004-RETRO",
+            "DOC-P008-RETRO",
+            "DOC-P010-BIDR"
+          ]
+        },
+        {
+          "name": "データ過剰共有",
+          "impact": "情報漏洩リスク",
+          "likelihood": "中",
+          "mitigation": "アクセス制御の厳格化と監査ログ実装",
+          "sourceIds": [
+            "DOC-P002-RFP",
+            "DOC-P004-RFP",
+            "DOC-P008-RFP",
+            "DOC-P010-RFP"
+          ]
+        },
+        {
+          "name": "知識の陳腐化",
+          "impact": "誤情報提供・運用コスト増",
+          "likelihood": "中",
+          "mitigation": "定期的な知識ベース更新と自動検知機能の導入",
+          "sourceIds": [
+            "DOC-P002-SOL",
+            "DOC-P004-SOL",
+            "DOC-P008-SOL",
+            "DOC-P010-PROP"
+          ]
+        }
+      ],
+      "managementDecision": {
+        "decision": "標準資産化を推進し、運用付加型サービスへの展開を検討する",
+        "investmentLevel": "中",
+        "timeHorizon": "6-12ヶ月",
+        "next90Days": [
+          "アクセス制御・評価プロセスの標準化設計を開始",
+          "運用監視ダッシュボードの要件定義",
+          "既存案件からのフィードバック収集と反映"
+        ],
+        "successCriteria": [
+          "標準機能の3案件以上への適用",
+          "運用監視機能の自動化率向上",
+          "品質・安全性リスクの低減"
+        ],
+        "stopOrReviewCriteria": [
+          "標準化コストが想定を大幅に超過",
+          "案件ごとの要件乖離が拡大",
+          "品質・安全性リスクが顕在化"
+        ]
+      }
+    }
+  ]
+}
