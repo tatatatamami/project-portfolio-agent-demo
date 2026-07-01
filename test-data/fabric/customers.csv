@@ -1,0 +1,7 @@
+CustomerID,CustomerName,Industry,Region,Segment,KnowledgeStatus
+C001,Customer A,Gaming,Japan,Enterprise,Approved
+C002,Customer B,Telecommunications,Japan,Enterprise,Approved
+C003,Customer C,Manufacturing,Japan,Enterprise,Approved
+C004,Customer D,Retail,Japan,Enterprise,Approved
+C005,Customer E,Media,Japan,MidMarket,Approved
+C006,Customer F,Logistics,Japan,Enterprise,Approved

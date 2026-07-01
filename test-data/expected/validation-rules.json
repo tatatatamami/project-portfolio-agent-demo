@@ -1,0 +1,183 @@
+{
+  "version": "1.0",
+  "description": "サービス資産化エージェント テストデータ検証ルール一覧",
+  "rules": [
+    {
+      "id": "RULE-01",
+      "category": "ForeignKey",
+      "description": "CustomerIDの外部キーがcustomers.csvに存在する",
+      "targetFiles": ["projects.csv", "opportunities.csv"],
+      "expectedResult": "すべての外部キーが有効"
+    },
+    {
+      "id": "RULE-02",
+      "category": "PrimaryKey",
+      "description": "ProjectIDが12件で重複なし",
+      "targetFiles": ["projects.csv"],
+      "expectedCount": 12,
+      "expectedResult": "12件、重複なし"
+    },
+    {
+      "id": "RULE-03",
+      "category": "Pattern",
+      "description": "各Patternに4案件存在する",
+      "targetFiles": ["projects.csv"],
+      "expectedResult": {
+        "API Modernization": 4,
+        "AI Agent Production": 4,
+        "AI-ready Data Foundation": 4
+      }
+    },
+    {
+      "id": "RULE-04",
+      "category": "WinLoss",
+      "description": "Won 10件、Lost 2件",
+      "targetFiles": ["projects.csv"],
+      "expectedResult": {
+        "Won": 10,
+        "Lost": 2
+      }
+    },
+    {
+      "id": "RULE-05",
+      "category": "RowCount",
+      "description": "RequirementsのApprovedが72件",
+      "targetFiles": ["requirements.csv"],
+      "filter": "KnowledgeStatus=Approved",
+      "expectedCount": 72
+    },
+    {
+      "id": "RULE-06",
+      "category": "RowCount",
+      "description": "RisksのApprovedが48件",
+      "targetFiles": ["risks.csv"],
+      "filter": "KnowledgeStatus=Approved",
+      "expectedCount": 48
+    },
+    {
+      "id": "RULE-07",
+      "category": "RowCount",
+      "description": "FeaturesのApprovedが60件",
+      "targetFiles": ["features.csv"],
+      "filter": "KnowledgeStatus=Approved",
+      "expectedCount": 60
+    },
+    {
+      "id": "RULE-08",
+      "category": "DocumentCount",
+      "description": "Search文書が38件（案件文書36件 + グローバル文書2件）",
+      "targetDirectories": [
+        "test-data/ai-search/documents/**/*.md",
+        "test-data/ai-search/global/*.md"
+      ],
+      "expectedResult": {
+        "caseDocuments": 36,
+        "globalDocuments": 2,
+        "total": 38
+      }
+    },
+    {
+      "id": "RULE-09",
+      "category": "DocumentCount",
+      "description": "各案件に3文書存在する",
+      "targetDirectory": "test-data/ai-search/documents/",
+      "expectedDocsPerProject": 3
+    },
+    {
+      "id": "RULE-10",
+      "category": "ForeignKey",
+      "description": "Search文書のProjectIDがprojects.csvに存在する",
+      "targetFiles": ["test-data/ai-search/documents/**/*.md"],
+      "checkField": "projectId (YAML Front Matter)",
+      "expectedResult": "すべてのprojectIdがprojects.csvに存在"
+    },
+    {
+      "id": "RULE-11",
+      "category": "Consistency",
+      "description": "CSVとMarkdown文書のWinLoss・Industry・ProjectThemeが一致する",
+      "targetFiles": ["projects.csv", "test-data/ai-search/documents/**/*.md"],
+      "expectedResult": "すべての文書でCSVと一致"
+    },
+    {
+      "id": "RULE-12",
+      "category": "Calculation",
+      "description": "FinancialsのProfit = Revenue - Cost",
+      "targetFiles": ["project-financials.csv"],
+      "formula": "ProfitJPYMillion = RevenueJPYMillion - CostJPYMillion",
+      "expectedResult": "すべての行で計算が一致（誤差0）"
+    },
+    {
+      "id": "RULE-13",
+      "category": "Calculation",
+      "description": "Won案件のMargin = Profit / Revenue * 100（誤差0.1以内）",
+      "targetFiles": ["project-financials.csv"],
+      "filter": "WinLoss=Won",
+      "formula": "ProfitMarginPct = ProfitJPYMillion / RevenueJPYMillion * 100",
+      "tolerance": 0.1,
+      "expectedResult": "すべてのWon案件で誤差0.1以内"
+    },
+    {
+      "id": "RULE-14",
+      "category": "NullCheck",
+      "description": "Lost案件のMarginはnull",
+      "targetFiles": ["project-financials.csv"],
+      "filter": "WinLoss=Lost",
+      "expectedResult": "P006とP010のProfitMarginPctがnull"
+    },
+    {
+      "id": "RULE-15",
+      "category": "Aggregation",
+      "description": "totalWonProfitJPYMillion はWon案件のProfitのみの合計（Lost案件のBid Costを混入しない）",
+      "targetFiles": ["project-financials.csv", "expected-pattern-metrics.json"],
+      "expectedResult": {
+        "API Modernization": 425,
+        "AI Agent Production": 248,
+        "AI-ready Data Foundation": 700
+      }
+    },
+    {
+      "id": "RULE-16",
+      "category": "Aggregation",
+      "description": "lostBidCostJPYMillion はLost案件のCostのみの合計",
+      "targetFiles": ["project-financials.csv", "expected-pattern-metrics.json"],
+      "expectedResult": {
+        "API Modernization": 35,
+        "AI Agent Production": 28,
+        "AI-ready Data Foundation": 0
+      }
+    },
+    {
+      "id": "RULE-17",
+      "category": "Aggregation",
+      "description": "expected-pattern-metricsの全フィールドと実集計が一致する",
+      "targetFiles": ["project-financials.csv", "projects.csv", "expected-pattern-metrics.json"],
+      "expectedResult": "全パターン・全フィールドで一致"
+    },
+    {
+      "id": "RULE-18",
+      "category": "DataQuality",
+      "description": "Approved以外のデータを集計から除外する",
+      "targetFiles": ["requirements.csv", "risks.csv", "features.csv"],
+      "expectedResult": "Draft行は集計に含まれない"
+    },
+    {
+      "id": "RULE-19",
+      "category": "DataQuality",
+      "description": "Actual OutcomeとProjected Outcomeを区別する",
+      "targetFiles": ["business-outcomes.csv"],
+      "expectedResult": {
+        "Actual": 30,
+        "Projected": 4,
+        "ActualProjects": ["P001","P002","P003","P004","P005","P007","P008","P009","P011","P012"],
+        "ProjectedProjects": ["P006","P010"]
+      }
+    },
+    {
+      "id": "RULE-20",
+      "category": "SecurityCheck",
+      "description": "実在企業名・実在人物名・実メールアドレスが含まれない",
+      "targetDirectories": ["test-data/"],
+      "expectedResult": "すべてのファイルで禁止情報が検出されない"
+    }
+  ]
+}

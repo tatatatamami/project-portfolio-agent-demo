@@ -1,0 +1,224 @@
+{
+  "name": "project-knowledge-index",
+  "fields": [
+    {
+      "name": "id",
+      "type": "Edm.String",
+      "key": true,
+      "filterable": true,
+      "searchable": false,
+      "retrievable": true,
+      "sortable": false,
+      "facetable": false
+    },
+    {
+      "name": "documentId",
+      "type": "Edm.String",
+      "key": false,
+      "filterable": true,
+      "searchable": false,
+      "retrievable": true,
+      "sortable": false,
+      "facetable": false
+    },
+    {
+      "name": "projectId",
+      "type": "Edm.String",
+      "key": false,
+      "filterable": true,
+      "searchable": false,
+      "retrievable": true,
+      "sortable": false,
+      "facetable": true
+    },
+    {
+      "name": "customerId",
+      "type": "Edm.String",
+      "key": false,
+      "filterable": true,
+      "searchable": false,
+      "retrievable": true,
+      "sortable": false,
+      "facetable": false
+    },
+    {
+      "name": "title",
+      "type": "Edm.String",
+      "key": false,
+      "filterable": false,
+      "searchable": true,
+      "retrievable": true,
+      "sortable": false,
+      "facetable": false,
+      "analyzer": "ja.microsoft"
+    },
+    {
+      "name": "content",
+      "type": "Edm.String",
+      "key": false,
+      "filterable": false,
+      "searchable": true,
+      "retrievable": true,
+      "sortable": false,
+      "facetable": false,
+      "analyzer": "ja.microsoft"
+    },
+    {
+      "name": "documentType",
+      "type": "Edm.String",
+      "key": false,
+      "filterable": true,
+      "searchable": false,
+      "retrievable": true,
+      "sortable": false,
+      "facetable": true
+    },
+    {
+      "name": "industry",
+      "type": "Edm.String",
+      "key": false,
+      "filterable": true,
+      "searchable": false,
+      "retrievable": true,
+      "sortable": false,
+      "facetable": true
+    },
+    {
+      "name": "projectTheme",
+      "type": "Edm.String",
+      "key": false,
+      "filterable": true,
+      "searchable": false,
+      "retrievable": true,
+      "sortable": false,
+      "facetable": true
+    },
+    {
+      "name": "winLoss",
+      "type": "Edm.String",
+      "key": false,
+      "filterable": true,
+      "searchable": false,
+      "retrievable": true,
+      "sortable": false,
+      "facetable": true
+    },
+    {
+      "name": "knowledgeStatus",
+      "type": "Edm.String",
+      "key": false,
+      "filterable": true,
+      "searchable": false,
+      "retrievable": true,
+      "sortable": false,
+      "facetable": false
+    },
+    {
+      "name": "confidentiality",
+      "type": "Edm.String",
+      "key": false,
+      "filterable": true,
+      "searchable": false,
+      "retrievable": true,
+      "sortable": false,
+      "facetable": false
+    },
+    {
+      "name": "sourceDate",
+      "type": "Edm.DateTimeOffset",
+      "key": false,
+      "filterable": true,
+      "searchable": false,
+      "retrievable": true,
+      "sortable": true,
+      "facetable": false
+    },
+    {
+      "name": "tags",
+      "type": "Collection(Edm.String)",
+      "key": false,
+      "filterable": true,
+      "searchable": true,
+      "retrievable": true,
+      "sortable": false,
+      "facetable": true
+    },
+    {
+      "name": "sourceUrl",
+      "type": "Edm.String",
+      "key": false,
+      "filterable": false,
+      "searchable": false,
+      "retrievable": true,
+      "sortable": false,
+      "facetable": false
+    },
+    {
+      "name": "contentVector",
+      "type": "Collection(Edm.Single)",
+      "key": false,
+      "filterable": false,
+      "searchable": true,
+      "retrievable": false,
+      "sortable": false,
+      "facetable": false,
+      "dimensions": "${EMBEDDING_DIMENSIONS}",
+      "vectorSearchProfile": "project-knowledge-vector-profile"
+    }
+  ],
+  "vectorSearch": {
+    "algorithms": [
+      {
+        "name": "project-knowledge-hnsw",
+        "kind": "hnsw",
+        "hnswParameters": {
+          "m": 4,
+          "efConstruction": 400,
+          "efSearch": 500,
+          "metric": "cosine"
+        }
+      }
+    ],
+    "profiles": [
+      {
+        "name": "project-knowledge-vector-profile",
+        "algorithm": "project-knowledge-hnsw"
+      }
+    ]
+  },
+  "semantic": {
+    "configurations": [
+      {
+        "name": "project-knowledge-semantic",
+        "prioritizedFields": {
+          "titleField": {
+            "fieldName": "title"
+          },
+          "contentFields": [
+            {
+              "fieldName": "content"
+            }
+          ],
+          "keywordsFields": [
+            {
+              "fieldName": "tags"
+            },
+            {
+              "fieldName": "projectTheme"
+            },
+            {
+              "fieldName": "industry"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "defaultScoringProfile": null,
+  "_comment": {
+    "contentVector_dimensions": "EMBEDDING_DIMENSIONS is resolved from environment variable at provisioning time. Supported values depend on the embedding model deployed (e.g., 1536 for text-embedding-ada-002, 3072 for text-embedding-3-large).",
+    "filterForAgent": "Provisioning Console registers the Azure AI Search tool with filter: knowledgeStatus eq 'Approved'",
+    "queryType": "vector_semantic_hybrid",
+    "singleIndex": "All 38 documents (36 case docs + 2 global docs) are stored in this single index."
+  }
+}

@@ -1,0 +1,142 @@
+{
+  "API Modernization": {
+    "projectCount": 4,
+    "projectIds": ["P001", "P003", "P006", "P011"],
+    "wonCount": 3,
+    "wonProjectIds": ["P001", "P003", "P011"],
+    "lostProjectIds": ["P006"],
+    "winRatePct": 75.0,
+    "averageWonProfitMarginPct": 28.3,
+    "averageWonEffortReductionPct": 30.3,
+    "totalWonRevenueJPYMillion": 1500,
+    "totalWonProfitJPYMillion": 425,
+    "lostBidCostJPYMillion": 35,
+    "wonProfit_breakdown": {
+      "P001": 135,
+      "P003": 150,
+      "P011": 140
+    },
+    "wonMargin_breakdown": {
+      "P001": 28.1,
+      "P003": 28.8,
+      "P011": 28.0
+    },
+    "wonEffortReduction_breakdown": {
+      "P001": 30,
+      "P003": 32,
+      "P011": 29
+    },
+    "commonRequirements": [
+      "Identity and Authentication",
+      "Rate Limiting",
+      "API Versioning",
+      "Audit Logging",
+      "Observability",
+      "Zero-downtime Migration"
+    ],
+    "commonRisks": [
+      "Authentication Misconfiguration",
+      "Peak Load",
+      "Breaking Change",
+      "Unclear API Ownership"
+    ],
+    "lostReason_P006": "Unclear API Ownership (Critical) - APIオーナーが不明確で移行責任が合意されていなかった"
+  },
+  "AI Agent Production": {
+    "projectCount": 4,
+    "projectIds": ["P002", "P004", "P008", "P010"],
+    "wonCount": 3,
+    "wonProjectIds": ["P002", "P004", "P008"],
+    "lostProjectIds": ["P010"],
+    "winRatePct": 75.0,
+    "averageWonProfitMarginPct": 22.9,
+    "averageWonEffortReductionPct": 23.0,
+    "totalWonRevenueJPYMillion": 1090,
+    "totalWonProfitJPYMillion": 248,
+    "lostBidCostJPYMillion": 28,
+    "wonProfit_breakdown": {
+      "P002": 78,
+      "P004": 90,
+      "P008": 80
+    },
+    "wonMargin_breakdown": {
+      "P002": 24.4,
+      "P004": 22.0,
+      "P008": 22.2
+    },
+    "wonEffortReduction_breakdown": {
+      "P002": 25,
+      "P004": 20,
+      "P008": 24
+    },
+    "commonRequirements": [
+      "Access Control",
+      "Citation and Grounding",
+      "Evaluation",
+      "Content Safety",
+      "Human Escalation",
+      "Monitoring and Feedback"
+    ],
+    "commonRisks": [
+      "Hallucination",
+      "Data Oversharing",
+      "Stale Knowledge",
+      "Undefined Acceptance Criteria"
+    ],
+    "lostReason_P010": "Undefined Acceptance Criteria (Critical) + Data Oversharing (High) - 評価指標未定義・データ権限未整理・本番責任者未確定"
+  },
+  "AI-ready Data Foundation": {
+    "projectCount": 4,
+    "projectIds": ["P005", "P007", "P009", "P012"],
+    "wonCount": 4,
+    "wonProjectIds": ["P005", "P007", "P009", "P012"],
+    "lostProjectIds": [],
+    "winRatePct": 100.0,
+    "averageWonProfitMarginPct": 32.0,
+    "averageWonEffortReductionPct": 35.8,
+    "totalWonRevenueJPYMillion": 2190,
+    "totalWonProfitJPYMillion": 700,
+    "lostBidCostJPYMillion": 0,
+    "wonProfit_breakdown": {
+      "P005": 190,
+      "P007": 180,
+      "P009": 145,
+      "P012": 185
+    },
+    "wonMargin_breakdown": {
+      "P005": 31.7,
+      "P007": 32.1,
+      "P009": 32.2,
+      "P012": 31.9
+    },
+    "wonEffortReduction_breakdown": {
+      "P005": 35,
+      "P007": 38,
+      "P009": 34,
+      "P012": 36
+    },
+    "commonRequirements": [
+      "Unified Data Model",
+      "Data Quality Rules",
+      "Data Lineage",
+      "Semantic Model",
+      "Near-real-time Ingestion",
+      "Role-based Access Control"
+    ],
+    "commonRisks": [
+      "Source Inconsistency",
+      "Unclear Data Ownership",
+      "Ingestion Delay",
+      "Capacity Cost Growth"
+    ],
+    "demoTopCandidate": true,
+    "demoTopCandidateReason": "受注率100%、平均利益率32.0%、平均工数削減率35.8%、売上合計2190百万円で3パターン中最も高い再利用性を示す"
+  },
+  "_metadata": {
+    "version": "1.0",
+    "generatedDate": "2026-07-02",
+    "dataSource": "test-data/fabric/*.csv",
+    "validationRules": "test-data/expected/validation-rules.json",
+    "note": "totalWonProfitJPYMillion はWon案件のProfitのみの合計。Lost案件のBid Costは lostBidCostJPYMillion に分離して管理する。"
+  }
+}

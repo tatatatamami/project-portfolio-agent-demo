@@ -1,0 +1,13 @@
+ProjectID,RevenueJPYMillion,CostJPYMillion,ProfitJPYMillion,ProfitMarginPct,EffortPersonMonths,EffortReductionPct,FinancialStatus,KnowledgeStatus
+P001,480,345,135,28.1,24,30,Actual,Approved
+P002,320,242,78,24.4,18,25,Actual,Approved
+P003,520,370,150,28.8,28,32,Actual,Approved
+P004,410,320,90,22.0,22,20,Actual,Approved
+P005,600,410,190,31.7,30,35,Actual,Approved
+P006,0,35,-35,,4,0,BidCost,Approved
+P007,560,380,180,32.1,26,38,Actual,Approved
+P008,360,280,80,22.2,20,24,Actual,Approved
+P009,450,305,145,32.2,21,34,Actual,Approved
+P010,0,28,-28,,3,0,BidCost,Approved
+P011,500,360,140,28.0,25,29,Actual,Approved
+P012,580,395,185,31.9,27,36,Actual,Approved

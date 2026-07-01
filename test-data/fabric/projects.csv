@@ -1,0 +1,13 @@
+ProjectID,CustomerID,ProjectName,Industry,ProjectTheme,StartDate,EndDate,Status,WinLoss,KnowledgeStatus
+P001,C001,Game LiveOps API Modernization,Gaming,API Modernization,2024-01-15,2024-06-30,Completed,Won,Approved
+P002,C001,Player Support AI Agent,Gaming,AI Agent Production,2024-04-01,2024-10-31,Completed,Won,Approved
+P003,C002,Partner API Platform,Telecommunications,API Modernization,2024-02-01,2024-08-31,Completed,Won,Approved
+P004,C002,Contact Center Knowledge Agent,Telecommunications,AI Agent Production,2024-05-01,2024-12-15,Completed,Won,Approved
+P005,C003,Predictive Maintenance Data Platform,Manufacturing,AI-ready Data Foundation,2024-01-10,2024-09-30,Completed,Won,Approved
+P006,C003,ERP Integration Modernization,Manufacturing,API Modernization,2024-03-01,2024-05-31,BidClosed,Lost,Approved
+P007,C004,Retail Demand Forecast Platform,Retail,AI-ready Data Foundation,2024-02-15,2024-11-30,Completed,Won,Approved
+P008,C004,Store Operations AI Assistant,Retail,AI Agent Production,2024-06-01,2025-01-31,Completed,Won,Approved
+P009,C005,Content Metadata Knowledge Platform,Media,AI-ready Data Foundation,2024-03-15,2024-12-20,Completed,Won,Approved
+P010,C005,Creator Support Agent,Media,AI Agent Production,2024-07-01,2024-09-30,BidClosed,Lost,Approved
+P011,C006,Logistics Event API Platform,Logistics,API Modernization,2024-04-15,2024-12-31,Completed,Won,Approved
+P012,C006,Fleet Analytics Lakehouse,Logistics,AI-ready Data Foundation,2024-05-01,2025-02-28,Completed,Won,Approved

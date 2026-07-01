@@ -1,0 +1,85 @@
+RequirementID,ProjectID,Category,RequirementName,Description,Priority,KnowledgeStatus
+REQ-P001-01,P001,Security,Identity and Authentication,ゲームパートナー向けAPIへのMicrosoft Entra IDベースのOAuth 2.0認証を実装し不正なLiveOpsデータアクセスを防止する。,High,Approved
+REQ-P001-02,P001,Performance,Rate Limiting,LiveOpsイベント配信時のトラフィック急増に対しクライアントごとのリクエスト制限でAPIの可用性を確保する。,High,Approved
+REQ-P001-03,P001,Compatibility,API Versioning,パートナー向けAPIの後方互換性をURLパスバージョニングで維持し段階的な機能追加を可能にする。,High,Approved
+REQ-P001-04,P001,Compliance,Audit Logging,全APIリクエストのアクセス・操作ログを記録し不正アクセス調査とコンプライアンス対応を支援する。,Medium,Approved
+REQ-P001-05,P001,Operations,Observability,分散トレーシングとメトリクスでLiveOps APIのパフォーマンスをリアルタイムに監視し問題の早期検知を可能にする。,High,Approved
+REQ-P001-06,P001,Delivery,Zero-downtime Migration,既存パートナー接続を維持しながら新APIへ段階移行し本番環境へのサービス断なしに近代化を完了する。,High,Approved
+REQ-P001-07,P001,Performance,Advanced Caching,高頻度アクセスするゲームデータを分散キャッシュで管理しAPIレスポンスタイムとオリジンサーバー負荷を削減する。,Low,Draft
+REQ-P002-01,P002,Security,Access Control,ゲームコンテンツおよびプレイヤーデータへのアクセスをACLトリミングで制御しロール外の情報をエージェントが提供しないようにする。,High,Approved
+REQ-P002-02,P002,Quality,Citation and Grounding,プレイヤーサポートの回答には必ず根拠となるサポートドキュメントの引用を含め情報の正確性を担保する。,High,Approved
+REQ-P002-03,P002,Quality,Evaluation,エージェントの回答品質を定期的な評価パイプラインで測定し精度・関連性・安全性を継続改善する。,High,Approved
+REQ-P002-04,P002,Safety,Content Safety,プレイヤー向け応答の有害表現・不適切コンテンツを自動フィルタリングしブランドガイドラインに準拠させる。,High,Approved
+REQ-P002-05,P002,Operations,Human Escalation,エージェントが回答不能な複雑な問い合わせを人間のサポートエージェントへ確実にエスカレーションする。,High,Approved
+REQ-P002-06,P002,Operations,Monitoring and Feedback,プレイヤーのフィードバックと応答品質ログを収集しエージェントの継続的改善に活用する。,Medium,Approved
+REQ-P002-07,P002,Usability,Multi-language Support,複数言語のプレイヤー問い合わせに自動対応できる多言語サポート機能を追加する。,Low,Draft
+REQ-P003-01,P003,Security,Identity and Authentication,通信パートナーシステムへのAPIアクセスにMicrosoft Entra ID認証を適用し不正な顧客データアクセスを防止する。,High,Approved
+REQ-P003-02,P003,Performance,Rate Limiting,パートナーAPIへの大量リクエストに対しクライアント別のスロットリングで通信システムの安定性を保護する。,High,Approved
+REQ-P003-03,P003,Compatibility,API Versioning,パートナー向けAPIのバージョン管理を実装しサービス停止なしに段階的な機能アップグレードを提供する。,High,Approved
+REQ-P003-04,P003,Compliance,Audit Logging,パートナーAPIの全アクセスログを記録し通信規制要件への対応と不正利用の追跡を可能にする。,High,Approved
+REQ-P003-05,P003,Operations,Observability,APIゲートウェイの分散トレーシングとアラートで通信パートナー連携の可用性をリアルタイム監視する。,High,Approved
+REQ-P003-06,P003,Delivery,Zero-downtime Migration,稼働中のパートナー連携を維持しながら新APIプラットフォームへ段階移行しサービス断を回避する。,High,Approved
+REQ-P003-07,P003,Developer Experience,Developer Portal,APIドキュメントと開発者ポータルを自動生成しパートナーの開発者体験を向上させる。,Low,Draft
+REQ-P004-01,P004,Security,Access Control,コンタクトセンターの顧客情報と内部ナレッジへのアクセスをオペレーターのロール別ACLで制限し情報漏洩を防止する。,High,Approved
+REQ-P004-02,P004,Quality,Citation and Grounding,エージェントの回答には必ず根拠となる社内ドキュメントの引用を示しオペレーターが内容を確認できるようにする。,High,Approved
+REQ-P004-03,P004,Quality,Evaluation,エージェントの回答精度と顧客満足度を評価パイプラインで定期測定し継続的改善サイクルを運用する。,High,Approved
+REQ-P004-04,P004,Safety,Content Safety,顧客対応での不適切表現と機密情報漏洩リスクをContent Safetyで自動検出しブロックする。,High,Approved
+REQ-P004-05,P004,Operations,Human Escalation,エージェントが対応不能な苦情や高リスクな問い合わせを上位オペレーターへ確実に転送する。,High,Approved
+REQ-P004-06,P004,Operations,Monitoring and Feedback,オペレーターフィードバックとKPIを収集しエージェントのナレッジ更新サイクルに活用する。,Medium,Approved
+REQ-P004-07,P004,Integration,CRM Integration,コンタクトセンターのCRMシステムと連携してエージェントが顧客履歴を参照できるようにする。,Low,Draft
+REQ-P005-01,P005,Architecture,Unified Data Model,複数センサーシステムの予知保全データを統合したUnified Data Modelを定義し設備ごとの分析基盤を構築する。,High,Approved
+REQ-P005-02,P005,Quality,Data Quality Rules,センサーデータの品質チェックルールを定義し異常値・欠損値・重複データを自動検出して品質を維持する。,High,Approved
+REQ-P005-03,P005,Governance,Data Lineage,センサーデータの発生源から分析モデルまでのData Lineageを追跡しデータ品質問題の根本原因を特定可能にする。,High,Approved
+REQ-P005-04,P005,Analytics,Semantic Model,設備稼働率・故障予測・工数指標をビジネスロジックに基づくPower BiセマンティックモデルとしてFabricに定義する。,High,Approved
+REQ-P005-05,P005,Performance,Near-real-time Ingestion,センサーデータをほぼリアルタイムで取り込み予知保全モデルの更新頻度と故障予測精度を向上させる。,High,Approved
+REQ-P005-06,P005,Security,Role-based Access Control,設備データへのアクセスを工場・部門・職種ロールに基づき制限し機密製造情報の漏洩を防止する。,High,Approved
+REQ-P005-07,P005,Governance,Data Catalog,データアセットのメタデータをカタログとして管理しデータエンジニアの探索・再利用を効率化する。,Low,Draft
+REQ-P006-01,P006,Security,Identity and Authentication,ERPシステムAPIへのアクセスをMicrosoft Entra ID認証で保護し社内外からの不正操作を防止する。,High,Approved
+REQ-P006-02,P006,Performance,Rate Limiting,ERPデータ取得APIへの過剰リクエストをクライアント別制限で制御しERPシステムの安定稼働を確保する。,High,Approved
+REQ-P006-03,P006,Compatibility,API Versioning,ERPインターフェースのAPIバージョン管理を導入し既存統合システムへの影響なしに改修を可能にする。,High,Approved
+REQ-P006-04,P006,Compliance,Audit Logging,ERP APIの操作ログを集中管理し製造業コンプライアンスとセキュリティ監査に対応する。,High,Approved
+REQ-P006-05,P006,Operations,Observability,ERP連携のAPIゲートウェイに可観測性を組み込みデータ同期遅延と障害をリアルタイムに検知する。,Medium,Approved
+REQ-P006-06,P006,Delivery,Zero-downtime Migration,既存ERP統合を維持しながら新APIレイヤーへ段階的に移行し製造ラインへの影響を最小化する。,High,Approved
+REQ-P006-07,P006,Operations,Custom Monitoring Dashboard,ERP APIのエラーレートとレスポンスタイムをカスタムダッシュボードで可視化し運用チームの対応を効率化する。,Low,Draft
+REQ-P007-01,P007,Architecture,Unified Data Model,販売・在庫・プロモーションの複数ソースデータを統合したUnified Data Modelで需要予測の基盤を構築する。,High,Approved
+REQ-P007-02,P007,Quality,Data Quality Rules,販売データの品質チェックルールで店舗間の不整合・欠損・重複を自動検出し予測精度を維持する。,High,Approved
+REQ-P007-03,P007,Governance,Data Lineage,販売実績から需要予測モデルまでのData Lineageで変換履歴を追跡し予測誤差の根本原因を特定可能にする。,High,Approved
+REQ-P007-04,P007,Analytics,Semantic Model,需要・在庫・売上指標をPower BiセマンティックモデルとしてFabricに定義しバイヤーとプランナーの分析を支援する。,High,Approved
+REQ-P007-05,P007,Performance,Near-real-time Ingestion,POSデータを準リアルタイムで取り込み在庫計画と補充判断のサイクルを短縮する。,High,Approved
+REQ-P007-06,P007,Security,Role-based Access Control,販売データへのアクセスをバイヤー・エリアマネージャー・エグゼクティブのロールで制御し競合情報の漏洩を防止する。,High,Approved
+REQ-P007-07,P007,Governance,Data Catalog,需要予測のデータカタログを整備しモデル開発者のデータ探索と実験サイクルを効率化する。,Low,Draft
+REQ-P008-01,P008,Security,Access Control,店舗スタッフの職種とアクセス権限に基づきACLトリミングを実施し機密在庫情報への不適切なアクセスを防止する。,High,Approved
+REQ-P008-02,P008,Quality,Citation and Grounding,商品情報・作業手順・コンプライアンス規則の回答に根拠文書の引用を必須とし情報の正確性を確保する。,High,Approved
+REQ-P008-03,P008,Quality,Evaluation,店舗業務に関するエージェント回答を評価パイプラインで継続的に検証し精度と適切性を維持する。,High,Approved
+REQ-P008-04,P008,Safety,Content Safety,店舗オペレーションに不適切なコンテンツや法的リスクのある情報をContent Safetyで自動除外する。,High,Approved
+REQ-P008-05,P008,Operations,Human Escalation,在庫不足や設備障害など緊急対応が必要な問い合わせを店舗マネージャーへ確実にエスカレーションする。,High,Approved
+REQ-P008-06,P008,Operations,Monitoring and Feedback,店舗スタッフのフィードバックと利用ログを分析しエージェントの業務カバレッジを継続的に改善する。,Medium,Approved
+REQ-P008-07,P008,Integration,POS Integration,POSシステムと連携してエージェントがリアルタイムの在庫・販売データを参照できるようにする。,Low,Draft
+REQ-P009-01,P009,Architecture,Unified Data Model,コンテンツメタデータの複数ソース（制作システム・配信プラットフォーム・アーカイブ）を統合したUnified Data Modelを構築する。,High,Approved
+REQ-P009-02,P009,Quality,Data Quality Rules,メタデータの品質チェックルールで必須フィールドの欠損・フォーマット不正を自動検出し検索精度を維持する。,High,Approved
+REQ-P009-03,P009,Governance,Data Lineage,コンテンツのライフサイクルと変換履歴をData Lineageで追跡し著作権管理と配信ルールの整合性を確保する。,High,Approved
+REQ-P009-04,P009,Analytics,Semantic Model,コンテンツ再利用率・検索効率・ライセンス収益をセマンティックモデルとして定義し経営層の意思決定を支援する。,High,Approved
+REQ-P009-05,P009,Performance,Near-real-time Ingestion,コンテンツ制作システムからメタデータを準リアルタイムで取り込み検索可能状態への反映遅延を最小化する。,High,Approved
+REQ-P009-06,P009,Security,Role-based Access Control,コンテンツデータへのアクセスを制作部門・配信チーム・経営層のロールで制限し権利情報の不適切な参照を防止する。,High,Approved
+REQ-P009-07,P009,Governance,AI Metadata Tagging,コンテンツデータカタログにAIタグ付け機能を追加しメタデータ入力工数を削減する。,Low,Draft
+REQ-P010-01,P010,Security,Access Control,コンテンツクリエイターのロールと権限に基づきACLトリミングを実施し他クリエイターの権利管理情報へのアクセスを防止する。,High,Approved
+REQ-P010-02,P010,Quality,Citation and Grounding,エージェントの回答には使用許諾と帰属の明確な根拠文書の引用を必須とし知的財産リスクを低減する。,High,Approved
+REQ-P010-03,P010,Quality,Evaluation,クリエイター向けサポートエージェントの回答精度と安全性を評価パイプラインで定期検証する。,High,Approved
+REQ-P010-04,P010,Safety,Content Safety,クリエイターコンテンツに関する有害表現と著作権侵害リスクのある情報をContent Safetyで自動検出する。,High,Approved
+REQ-P010-05,P010,Operations,Human Escalation,収益化や権利紛争など高リスクな問い合わせを法務・サポート担当者へ確実にエスカレーションする。,High,Approved
+REQ-P010-06,P010,Operations,Monitoring and Feedback,クリエイターフィードバックと利用ログを収集しサポートナレッジの継続更新に活用する。,Medium,Approved
+REQ-P010-07,P010,Integration,Analytics Integration,クリエイターの収益ダッシュボードと連携してエージェントが分析データを参照できるようにする。,Low,Draft
+REQ-P011-01,P011,Security,Identity and Authentication,物流パートナーAPI連携にMicrosoft Entra ID認証を適用し配送データへの不正アクセスを防止する。,High,Approved
+REQ-P011-02,P011,Performance,Rate Limiting,物流イベントの大量通知に対しクライアント別スロットリングを設定し物流プラットフォームの安定性を確保する。,High,Approved
+REQ-P011-03,P011,Compatibility,API Versioning,物流APIのバージョン管理でパートナーとの後方互換性を確保し新機能の段階的導入を可能にする。,High,Approved
+REQ-P011-04,P011,Compliance,Audit Logging,物流イベントAPIの操作ログを記録し貨物追跡とコンプライアンス要件に対応する。,High,Approved
+REQ-P011-05,P011,Operations,Observability,物流イベント処理の分散トレーシングとアラートでリアルタイムに連携状態を監視する。,High,Approved
+REQ-P011-06,P011,Delivery,Zero-downtime Migration,稼働中のパートナー配送システム連携を維持しながら新APIプラットフォームへ段階移行する。,High,Approved
+REQ-P011-07,P011,Developer Experience,Partner SDK,物流APIのパートナー向け開発者ポータルとSDKを提供し新規パートナー統合の工数を削減する。,Low,Draft
+REQ-P012-01,P012,Architecture,Unified Data Model,複数拠点・複数車種の運行データ・配送実績・顧客注文を統合したUnified Data Modelでフリート分析基盤を構築する。,High,Approved
+REQ-P012-02,P012,Quality,Data Quality Rules,運行データの品質チェックルールで位置情報の欠損・センサー異常・重複レコードを自動検出する。,High,Approved
+REQ-P012-03,P012,Governance,Data Lineage,運行データから配送KPIまでのData Lineageで変換履歴を追跡しレポートの信頼性を確保する。,High,Approved
+REQ-P012-04,P012,Analytics,Semantic Model,フリート稼働率・配送遅延率・コスト効率をセマンティックモデルとして定義し物流計画チームの分析を支援する。,High,Approved
+REQ-P012-05,P012,Performance,Near-real-time Ingestion,車両センサーと配送イベントデータを準リアルタイムで取り込み動的なルート最適化とアラートを可能にする。,High,Approved
+REQ-P012-06,P012,Security,Role-based Access Control,運行データへのアクセスを拠点・車両担当・経営層のロールで制御し競合他社への情報漏洩を防止する。,High,Approved
+REQ-P012-07,P012,Governance,Fleet Data Catalog,フリートデータカタログを整備しデータサイエンティストの分析モデル開発を加速する。,Low,Draft

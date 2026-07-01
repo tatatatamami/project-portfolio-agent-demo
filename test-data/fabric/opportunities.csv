@@ -1,0 +1,13 @@
+OpportunityID,CustomerID,ProjectID,OpportunityName,Stage,AmountJPYMillion,WinLoss,CloseDate,KnowledgeStatus
+OPP-P001,C001,P001,ゲームLiveOps API近代化,ClosedWon,480,Won,2024-06-30,Approved
+OPP-P002,C001,P002,プレイヤーサポートAIエージェント展開,ClosedWon,320,Won,2024-10-31,Approved
+OPP-P003,C002,P003,パートナーAPIプラットフォーム構築,ClosedWon,520,Won,2024-08-31,Approved
+OPP-P004,C002,P004,コンタクトセンターナレッジエージェント展開,ClosedWon,410,Won,2024-12-15,Approved
+OPP-P005,C003,P005,予知保全データプラットフォーム構築,ClosedWon,600,Won,2024-09-30,Approved
+OPP-P006,C003,P006,ERP統合API近代化,ClosedLost,430,Lost,2024-05-31,Approved
+OPP-P007,C004,P007,小売需要予測プラットフォーム構築,ClosedWon,560,Won,2024-11-30,Approved
+OPP-P008,C004,P008,店舗オペレーションAIアシスタント展開,ClosedWon,360,Won,2025-01-31,Approved
+OPP-P009,C005,P009,コンテンツメタデータ知識基盤構築,ClosedWon,450,Won,2024-12-20,Approved
+OPP-P010,C005,P010,クリエイターサポートAIエージェント展開,ClosedLost,300,Lost,2024-09-30,Approved
+OPP-P011,C006,P011,物流イベントAPIプラットフォーム構築,ClosedWon,500,Won,2024-12-31,Approved
+OPP-P012,C006,P012,フリート分析Lakehouse構築,ClosedWon,580,Won,2025-02-28,Approved
