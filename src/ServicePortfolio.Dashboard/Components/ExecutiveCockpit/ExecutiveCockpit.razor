@@ -46,10 +46,6 @@
                     <span class="kpi-value kpi-value--small">@FormatGeneratedAt(_summary.GeneratedAt)</span>
                 </div>
                 <div class="kpi-card kpi-card--meta">
-                    <span class="kpi-label">利用モデル</span>
-                    <span class="kpi-value kpi-value--small">@FormatModel(_summary)</span>
-                </div>
-                <div class="kpi-card kpi-card--meta">
                     <span class="kpi-label">分析ステータス</span>
                     <span class="kpi-value kpi-value--small">@_summary.AnalysisStatus</span>
                 </div>
@@ -288,11 +284,6 @@
 
     private static string FormatGeneratedAt(DateTimeOffset? generatedAt) =>
         generatedAt?.ToLocalTime().ToString("yyyy/MM/dd HH:mm") ?? "未生成";
-
-    private static string FormatModel(DashboardSummary summary) =>
-        string.IsNullOrWhiteSpace(summary.ModelDeployment)
-            ? summary.ModelProvider
-            : $"{summary.ModelProvider} / {summary.ModelDeployment}";
 
     private static IReadOnlyList<(string Label, int Value)> GetScoreItems(ServiceCandidate candidate) =>
     [
