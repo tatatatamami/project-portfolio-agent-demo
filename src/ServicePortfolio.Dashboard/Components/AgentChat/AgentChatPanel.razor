@@ -1,0 +1,216 @@
+@implements IDisposable
+@using Markdig
+@using ServicePortfolio.Dashboard.Models
+@using System.Text
+
+<div class="chat-panel">
+    <div class="chat-header">
+        <h2 class="chat-title">🤖 Agent Chat</h2>
+        <button class="btn-new-chat" @onclick="StartNewConversation" title="新しい会話を開始">
+            ＋ 新しい会話
+        </button>
+    </div>
+
+    <div class="chat-suggestions" @key="_conversationId">
+        @foreach (var suggestion in _suggestions)
+        {
+            <button class="suggestion-chip" @onclick="() => SendSuggestion(suggestion)" disabled="@_isSending">
+                @suggestion
+            </button>
+        }
+    </div>
+
+    <div class="chat-messages" id="chat-messages-container">
+        @if (_messages.Count == 0)
+        {
+            <div class="chat-empty">
+                <p>上の質問候補を選択するか、メッセージを入力してください。</p>
+            </div>
+        }
+        @foreach (var message in _messages)
+        {
+            <div class="message @(message.Role == ChatRole.User ? "message--user" : "message--assistant")">
+                <div class="message-role">@(message.Role == ChatRole.User ? "あなた" : "AI Agent")</div>
+                <div class="message-content">
+                    @if (message.Role == ChatRole.Assistant)
+                    {
+                        @if (message.Error is not null)
+                        {
+                            <span class="message-error">⚠ @message.Error</span>
+                        }
+                        else if (message.IsStreaming && message.Content.Length == 0)
+                        {
+                            <span class="typing-indicator">
+                                <span></span><span></span><span></span>
+                            </span>
+                        }
+                        else
+                        {
+                            <div class="markdown-content">@((MarkupString)RenderMarkdown(message.Content))</div>
+                            @if (message.IsStreaming)
+                            {
+                                <span class="cursor-blink">▌</span>
+                            }
+                        }
+                    }
+                    else
+                    {
+                        <span>@message.Content</span>
+                    }
+                </div>
+                <div class="message-timestamp">@message.Timestamp.LocalDateTime.ToString("HH:mm")</div>
+            </div>
+        }
+    </div>
+
+    <div class="chat-input-area">
+        @if (_errorMessage is not null)
+        {
+            <div class="input-error">⚠ @_errorMessage</div>
+        }
+        <div class="input-row">
+            <textarea class="chat-input"
+                      @bind="_inputText"
+                      @bind:event="oninput"
+                      @onkeydown="HandleKeyDown"
+                      placeholder="メッセージを入力..."
+                      rows="2"
+                      disabled="@_isSending"></textarea>
+            <div class="input-actions">
+                @if (_isSending)
+                {
+                    <button class="btn-cancel" @onclick="CancelSending">キャンセル</button>
+                }
+                else
+                {
+                    <button class="btn-send" @onclick="SendMessage" disabled="@(string.IsNullOrWhiteSpace(_inputText))">
+                        送信
+                    </button>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Inject] private IAgentChatService AgentChatService { get; set; } = default!;
+
+    private readonly List<ChatMessage> _messages = [];
+    private string _inputText = string.Empty;
+    private bool _isSending;
+    private string? _errorMessage;
+    private string _conversationId = string.Empty;
+    private CancellationTokenSource? _cts;
+
+    private static readonly string[] _suggestions =
+    [
+        "このサービス候補を優先する根拠は何ですか",
+        "成功案件と失注案件の違いを説明してください",
+        "サービス化前に確認すべきリスクは何ですか",
+        "次の経営アクションを3点に絞ってください"
+    ];
+
+    protected override void OnInitialized()
+    {
+        _conversationId = AgentChatService.CreateConversationId();
+    }
+
+    public void StartNewConversation()
+    {
+        _cts?.Cancel();
+        _cts = null;
+        _messages.Clear();
+        _inputText = string.Empty;
+        _errorMessage = null;
+        _isSending = false;
+        _conversationId = AgentChatService.CreateConversationId();
+    }
+
+    public void SetInitialMessage(string message)
+    {
+        _inputText = message;
+    }
+
+    private async Task SendSuggestion(string suggestion)
+    {
+        _inputText = suggestion;
+        await SendMessage();
+    }
+
+    private async Task HandleKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter" && !e.ShiftKey && !string.IsNullOrWhiteSpace(_inputText) && !_isSending)
+        {
+            await SendMessage();
+        }
+    }
+
+    private async Task SendMessage()
+    {
+        var text = _inputText.Trim();
+        if (string.IsNullOrWhiteSpace(text) || _isSending) return;
+
+        _errorMessage = null;
+        _inputText = string.Empty;
+        _isSending = true;
+
+        _messages.Add(new ChatMessage { Role = ChatRole.User, Content = text });
+
+        var assistantMessage = new ChatMessage
+        {
+            Role = ChatRole.Assistant,
+            IsStreaming = true
+        };
+        _messages.Add(assistantMessage);
+
+        _cts = new CancellationTokenSource();
+        var sb = new StringBuilder();
+
+        try
+        {
+            await foreach (var chunk in AgentChatService.SendMessageAsync(_conversationId, text, _cts.Token))
+            {
+                sb.Append(chunk);
+                assistantMessage.Content = sb.ToString();
+                StateHasChanged();
+            }
+        }
+        catch (OperationCanceledException)
+        {
+            if (assistantMessage.Content.Length == 0)
+                _messages.Remove(assistantMessage);
+        }
+        catch (Exception ex)
+        {
+            assistantMessage.Error = $"エラーが発生しました: {ex.Message}";
+        }
+        finally
+        {
+            assistantMessage.IsStreaming = false;
+            _isSending = false;
+            _cts?.Dispose();
+            _cts = null;
+            StateHasChanged();
+        }
+    }
+
+    private void CancelSending()
+    {
+        _cts?.Cancel();
+    }
+
+    private static string RenderMarkdown(string markdown)
+    {
+        if (string.IsNullOrEmpty(markdown)) return string.Empty;
+        var pipeline = new Markdig.MarkdownPipelineBuilder()
+            .UseAdvancedExtensions()
+            .Build();
+        return Markdig.Markdown.ToHtml(markdown, pipeline);
+    }
+
+    public void Dispose()
+    {
+        _cts?.Cancel();
+        _cts?.Dispose();
+    }
+}

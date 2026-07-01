@@ -1,0 +1,30 @@
+@page "/"
+@rendermode InteractiveServer
+@using ServicePortfolio.Dashboard.Models
+@using ServicePortfolio.Dashboard.Components.AgentChat
+@using ServicePortfolio.Dashboard.Components.ExecutiveCockpit
+
+<PageTitle>Executive Cockpit | Service Portfolio</PageTitle>
+
+<div class="app-container">
+    <header class="app-header">
+        <h1 class="app-title">📊 Service Portfolio Executive Cockpit</h1>
+    </header>
+    <main class="app-main">
+        <div class="left-panel">
+            <ExecutiveCockpit OnAskAIClicked="OnAskAIClicked" />
+        </div>
+        <div class="right-panel">
+            <AgentChatPanel @ref="_chatPanel" />
+        </div>
+    </main>
+</div>
+
+@code {
+    private AgentChatPanel? _chatPanel;
+
+    private void OnAskAIClicked(ServiceCandidate candidate)
+    {
+        _chatPanel?.SetInitialMessage($"「{candidate.Name}」について詳しく教えてください。このサービス候補を優先する根拠は何ですか");
+    }
+}
