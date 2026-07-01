@@ -12,8 +12,8 @@ public class MockDashboardDataServiceTests
     {
         var summary = await _sut.GetDashboardSummaryAsync();
 
-        Assert.Equal(42, summary.TotalProjects);
-        Assert.Equal(5, summary.ServiceCandidateCount);
+        Assert.Equal(12, summary.TotalProjects);
+        Assert.Equal(3, summary.ServiceCandidateCount);
         Assert.True(summary.TotalContractedSales > 0);
         Assert.True(summary.AverageProfitMargin > 0);
     }
@@ -23,7 +23,7 @@ public class MockDashboardDataServiceTests
     {
         var summary = await _sut.GetDashboardSummaryAsync();
 
-        Assert.Equal(5, summary.ServiceCandidates.Count);
+        Assert.Equal(3, summary.ServiceCandidates.Count);
     }
 
     [Fact]
@@ -32,7 +32,7 @@ public class MockDashboardDataServiceTests
         var summary = await _sut.GetDashboardSummaryAsync();
 
         var ranks = summary.ServiceCandidates.Select(c => c.Rank).ToList();
-        Assert.Equal([1, 2, 3, 4, 5], ranks);
+        Assert.Equal([1, 2, 3], ranks);
     }
 
     [Fact]

@@ -18,71 +18,120 @@ public sealed class MockDashboardDataService : IDashboardDataService
 
         var summary = new DashboardSummary
         {
-            TotalProjects = 42,
-            ServiceCandidateCount = 5,
-            TotalContractedSales = 1_250_000_000m,
-            AverageProfitMargin = 28.4,
+            TotalProjects = 12,
+            ServiceCandidateCount = 3,
+            TotalContractedSales = 4_780_000_000m,
+            AverageProfitMargin = 28.1,
             ServiceCandidates =
             [
                 new ServiceCandidate
                 {
-                    Name = "クラウド移行支援サービス",
+                    Name = "AIデータ活用基盤オファリング",
                     Rank = 1,
-                    WinRate = 72.5,
-                    AverageProfitMargin = 35.2,
-                    AverageEffortReductionRate = 40.0,
-                    SupportingProjects = ["案件A-12", "案件B-07", "案件C-23", "案件D-05"],
-                    CommonRequirements = ["AWS/Azure対応", "セキュリティ要件", "移行計画策定", "運用支援"],
-                    MajorRisks = ["既存システムとの互換性", "データ移行リスク", "運用スキル不足"],
-                    NextManagementDecision = "パートナー企業との提携を通じて移行支援の専門チームを2ヶ月以内に編成し、標準化されたサービスメニューを策定する"
+                    Priority = 100.0,
+                    WinRate = 100.0,
+                    AverageProfitMargin = 32.0,
+                    AverageEffortReductionRate = 35.8,
+                    IndustryCount = 4,
+                    ReuseRatePct = 100.0,
+                    TotalWonRevenueJPYBillion = 21.9,
+                    RecommendedBusinessModel = "標準オファリング化 → SaaS化検証",
+                    Rationale = "製造・小売・メディア・物流の4業種・4案件で、データパイプライン、Lakehouse、セマンティックモデル、Data Agentなどの共通構成が確認され、4案件すべてを受注しています。業種を越えて再利用できる可能性が高く、受注率100%・平均利益率32.0%は全パターン中最高であるため、最優先の事業化候補と判断しました。",
+                    SupportingProjects = ["P005（製造）", "P007（小売）", "P009（メディア）", "P012（物流）"],
+                    ReuseAssets =
+                    [
+                        "データパイプライン（4/4案件）",
+                        "Lakehouse（4/4案件）",
+                        "セマンティックモデル（4/4案件）",
+                        "Data Agent（4/4案件）",
+                        "データ品質・リネージ管理（4/4案件）",
+                        "ロールベースアクセス制御（4/4案件）"
+                    ],
+                    RequiredPreparation =
+                    [
+                        "標準Discoveryテンプレート",
+                        "標準リファレンスアーキテクチャ",
+                        "データオーナーとRACIの定義",
+                        "標準Lakehouse構成",
+                        "導入・運用手順",
+                        "価格・契約モデル",
+                        "テナント分離方式",
+                        "サポートレベル定義"
+                    ],
+                    AssetizationStageIndex = 2,
+                    CommonRequirements = ["統合データモデル", "データ品質ルール", "データリネージ", "セマンティックモデル", "準リアルタイム取り込み", "ロールベースアクセス制御"],
+                    MajorRisks = ["ソース間の不整合", "データオーナー不明確", "取り込み遅延", "容量・コスト増大"],
+                    NextManagementDecision = "AIデータ活用基盤の標準提供範囲を決定し、次の2案件をパイロット対象として選定する。標準化設計・価格モデル・テナント分離方式の確定に投資判断が必要。"
                 },
                 new ServiceCandidate
                 {
-                    Name = "AIデータ分析基盤構築",
+                    Name = "APIモダナイゼーション・アクセラレータ",
                     Rank = 2,
-                    WinRate = 58.3,
-                    AverageProfitMargin = 42.1,
-                    AverageEffortReductionRate = 55.0,
-                    SupportingProjects = ["案件E-31", "案件F-18", "案件G-09"],
-                    CommonRequirements = ["データパイプライン", "機械学習モデル", "ダッシュボード", "API連携"],
-                    MajorRisks = ["データ品質・ガバナンス", "AI規制対応", "人材確保の困難"],
-                    NextManagementDecision = "データサイエンティスト採用計画を策定し、既存エンジニアへのAI研修プログラムを開始する"
+                    Priority = 81.8,
+                    WinRate = 75.0,
+                    AverageProfitMargin = 28.3,
+                    AverageEffortReductionRate = 30.3,
+                    IndustryCount = 3,
+                    ReuseRatePct = 75.0,
+                    TotalWonRevenueJPYBillion = 15.0,
+                    RecommendedBusinessModel = "アクセラレータ＋マネージドサービス",
+                    Rationale = "ゲーム・通信・物流の3業種・3案件（受注）でAPI Gateway、Entra ID認証、バージョン管理、分散オブザーバビリティの共通構成が確認されています。ERP連携案件（P006）の失注から、APIオーナーシップの先行確定がPoC成功の必要条件として判明しました。Discoveryフェーズの標準化により再現性を高められます。",
+                    SupportingProjects = ["P001（Gaming）", "P003（通信）", "P006（製造・失注）", "P011（物流）"],
+                    ReuseAssets =
+                    [
+                        "API Gateway構成（4/4案件）",
+                        "Entra ID認証テンプレート（3/4案件）",
+                        "レート制限ポリシー（4/4案件）",
+                        "APIバージョン管理（4/4案件）",
+                        "分散オブザーバビリティ（4/4案件）"
+                    ],
+                    RequiredPreparation =
+                    [
+                        "Discovery Phaseテンプレート",
+                        "APIオーナー確定プロセス",
+                        "非機能要件合意フレームワーク",
+                        "ゼロダウンタイム移行手順書",
+                        "パートナー通知プロセス"
+                    ],
+                    AssetizationStageIndex = 2,
+                    CommonRequirements = ["Identity and Authentication", "Rate Limiting", "API Versioning", "Audit Logging", "Observability", "Zero-downtime Migration"],
+                    MajorRisks = ["認証設定不備", "ピーク負荷", "Breaking Change", "APIオーナー不在"],
+                    NextManagementDecision = "Discovery Phaseを標準先行ステップとして必須化し、APIオーナーの確定なしには技術提案を進めない方針を確立する。"
                 },
                 new ServiceCandidate
                 {
-                    Name = "業務プロセス自動化（RPA+AI）",
+                    Name = "AIエージェント本番化・運用プラットフォーム",
                     Rank = 3,
-                    WinRate = 65.0,
-                    AverageProfitMargin = 30.8,
-                    AverageEffortReductionRate = 62.0,
-                    SupportingProjects = ["案件H-44", "案件I-22"],
-                    CommonRequirements = ["RPA導入", "プロセス分析", "例外処理設計", "保守体制"],
-                    MajorRisks = ["業務変更への抵抗", "ROI測定の複雑さ"],
-                    NextManagementDecision = "RPA専門チームを社内に設立し、パイロット案件で標準化を推進する"
-                },
-                new ServiceCandidate
-                {
-                    Name = "セキュリティ監査・対策支援",
-                    Rank = 4,
-                    WinRate = 45.0,
-                    AverageProfitMargin = 38.5,
-                    AverageEffortReductionRate = 25.0,
-                    SupportingProjects = ["案件J-11", "案件K-33"],
-                    CommonRequirements = ["脆弱性診断", "ISMS対応", "インシデント対応", "教育研修"],
-                    MajorRisks = ["法改正への追随", "専門人材の育成コスト"],
-                    NextManagementDecision = "セキュリティ資格保有者の採用を優先し、セキュリティサービス部門を立ち上げる"
-                },
-                new ServiceCandidate
-                {
-                    Name = "デジタル人材育成研修",
-                    Rank = 5,
-                    WinRate = 80.0,
-                    AverageProfitMargin = 22.0,
-                    AverageEffortReductionRate = 15.0,
-                    SupportingProjects = ["案件L-02", "案件M-19", "案件N-28"],
-                    CommonRequirements = ["カリキュラム設計", "ハンズオン環境", "評価システム", "継続支援"],
-                    MajorRisks = ["受講者スキルのばらつき", "研修効果の持続性"],
-                    NextManagementDecision = "オンライン研修プラットフォームを導入し、顧客の内製化支援メニューを拡充する"
+                    Priority = 70.7,
+                    WinRate = 75.0,
+                    AverageProfitMargin = 22.9,
+                    AverageEffortReductionRate = 23.0,
+                    IndustryCount = 3,
+                    ReuseRatePct = 75.0,
+                    TotalWonRevenueJPYBillion = 10.9,
+                    RecommendedBusinessModel = "マネージドプラットフォーム → SaaS化検証",
+                    Rationale = "ゲーム・通信・小売の3業種・3案件（受注）でACL対応検索、引用表示、評価パイプライン、人間エスカレーションの共通構成が確認されています。メディア案件（P010）の失注から、データ権限整理と受け入れ基準の事前合意がAIエージェント案件の必要条件として判明しました。",
+                    SupportingProjects = ["P002（Gaming）", "P004（通信）", "P008（小売）", "P010（メディア・失注）"],
+                    ReuseAssets =
+                    [
+                        "ACL対応グラウンデッド検索（3/4案件）",
+                        "引用・根拠表示（4/4案件）",
+                        "評価パイプライン（4/4案件）",
+                        "Content Safety（4/4案件）",
+                        "人間エスカレーション（4/4案件）"
+                    ],
+                    RequiredPreparation =
+                    [
+                        "AI Production Readiness Assessmentテンプレート",
+                        "受け入れ基準合意フレームワーク",
+                        "データ権限整理チェックリスト",
+                        "本番運用責任定義書",
+                        "評価指標標準セット"
+                    ],
+                    AssetizationStageIndex = 2,
+                    CommonRequirements = ["Access Control / ACL Trimming", "Citation / Grounding", "Evaluation", "Content Safety", "Human Escalation", "Monitoring and Feedback"],
+                    MajorRisks = ["Hallucination", "Data Oversharing", "Stale Knowledge", "Acceptance Criteria不明確"],
+                    NextManagementDecision = "AI Production Readiness Assessmentを提案プロセスの必須ステップとして標準化し、本番移行計画の具体性を提案競争力の核とする。"
                 }
             ]
         };

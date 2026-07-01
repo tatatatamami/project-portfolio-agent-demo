@@ -9,35 +9,41 @@
     }
     else
     {
-        <div class="kpi-grid">
-            <div class="kpi-card">
-                <span class="kpi-label">対象案件数</span>
-                <span class="kpi-value">@_summary.TotalProjects<span class="kpi-unit">件</span></span>
+        <section class="section-kpi">
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <span class="kpi-label">分析対象案件</span>
+                    <span class="kpi-value">@_summary.TotalProjects<span class="kpi-unit">件</span></span>
+                </div>
+                <div class="kpi-card">
+                    <span class="kpi-label">事業化候補</span>
+                    <span class="kpi-value">@_summary.ServiceCandidateCount<span class="kpi-unit">件</span></span>
+                </div>
+                <div class="kpi-card">
+                    <span class="kpi-label">受注実績売上</span>
+                    <span class="kpi-value">@((_summary.TotalContractedSales / 100_000_000m).ToString("F1"))<span class="kpi-unit">億円</span></span>
+                </div>
+                <div class="kpi-card">
+                    <span class="kpi-label">受注案件 平均利益率</span>
+                    <span class="kpi-value">@(_summary.AverageProfitMargin.ToString("F1"))<span class="kpi-unit">%</span></span>
+                </div>
             </div>
-            <div class="kpi-card">
-                <span class="kpi-label">サービス候補数</span>
-                <span class="kpi-value">@_summary.ServiceCandidateCount<span class="kpi-unit">件</span></span>
-            </div>
-            <div class="kpi-card">
-                <span class="kpi-label">受注案件売上合計</span>
-                <span class="kpi-value">@(_summary.TotalContractedSales.ToString("N0"))<span class="kpi-unit">円</span></span>
-            </div>
-            <div class="kpi-card">
-                <span class="kpi-label">受注案件 平均利益率</span>
-                <span class="kpi-value">@(_summary.AverageProfitMargin.ToString("F1"))<span class="kpi-unit">%</span></span>
-            </div>
-        </div>
+        </section>
 
         <section class="section-candidates">
-            <h2 class="section-title">サービス候補ランキング</h2>
+            <h2 class="section-title">案件実績から抽出した事業化候補</h2>
             <ol class="candidate-list">
                 @foreach (var candidate in _summary.ServiceCandidates)
                 {
-                    <li class="@(candidate.Rank == 1 ? "candidate-item candidate-item--top" : "candidate-item")"
+                    <li class="candidate-item @(_selectedCandidate == candidate ? "candidate-item--selected" : "")"
                         @onclick="() => SelectCandidate(candidate)">
                         <span class="candidate-rank">@candidate.Rank</span>
-                        <span class="candidate-name">@candidate.Name</span>
-                        <span class="candidate-winrate">受注率 @(candidate.WinRate.ToString("F1"))%</span>
+                        <div class="candidate-body">
+                            <span class="candidate-name">@candidate.Name</span>
+                            <span class="candidate-sub-metrics">根拠案件 @(candidate.SupportingProjects.Count)件 ｜ 受注率 @(candidate.WinRate.ToString("F0"))% ｜ 利益率 @(candidate.AverageProfitMargin.ToString("F1"))%</span>
+                            <span class="candidate-biz-model">▶ @candidate.RecommendedBusinessModel</span>
+                        </div>
+                        <span class="candidate-priority-badge">優先度 @(candidate.Priority.ToString("F0"))</span>
                     </li>
                 }
             </ol>
@@ -56,59 +62,78 @@
                     </h2>
                 </div>
 
-                <div class="metrics-grid">
-                    <div class="metric-card">
-                        <span class="metric-label">受注率</span>
-                        <span class="metric-value">@(_selectedCandidate.WinRate.ToString("F1"))<span class="metric-unit">%</span></span>
+                <div class="detail-rationale">
+                    <h3 class="detail-label">なぜ事業化候補なのか</h3>
+                    <p class="rationale-text">@_selectedCandidate.Rationale</p>
+                </div>
+
+                <div class="detail-section">
+                    <div class="priority-metrics-grid">
+                        <div class="priority-metric-card priority-metric-card--highlight">
+                            <span class="pm-label">事業化優先度</span>
+                            <span class="pm-value">@(_selectedCandidate.Priority.ToString("F0"))<span class="pm-unit">/ 100</span></span>
+                        </div>
+                        <div class="priority-metric-card">
+                            <span class="pm-label">根拠案件</span>
+                            <span class="pm-value">@(_selectedCandidate.SupportingProjects.Count)<span class="pm-unit">件・@(_selectedCandidate.IndustryCount)業種</span></span>
+                        </div>
+                        <div class="priority-metric-card">
+                            <span class="pm-label">再利用性</span>
+                            <span class="pm-value">@(_selectedCandidate.ReuseRatePct.ToString("F0"))<span class="pm-unit">%</span></span>
+                        </div>
                     </div>
-                    <div class="metric-card">
-                        <span class="metric-label">平均利益率</span>
-                        <span class="metric-value">@(_selectedCandidate.AverageProfitMargin.ToString("F1"))<span class="metric-unit">%</span></span>
-                    </div>
-                    <div class="metric-card">
-                        <span class="metric-label">平均工数削減率</span>
-                        <span class="metric-value">@(_selectedCandidate.AverageEffortReductionRate.ToString("F1"))<span class="metric-unit">%</span></span>
+                    <div class="sub-metrics-row">
+                        <span>受注率 @(_selectedCandidate.WinRate.ToString("F1"))%</span>
+                        <span>平均利益率 @(_selectedCandidate.AverageProfitMargin.ToString("F1"))%</span>
+                        <span>工数削減率 @(_selectedCandidate.AverageEffortReductionRate.ToString("F1"))%</span>
+                        <span>受注売上 @(_selectedCandidate.TotalWonRevenueJPYBillion.ToString("F1"))億円</span>
                     </div>
                 </div>
 
                 <div class="detail-section">
-                    <h3 class="detail-label">根拠案件</h3>
+                    <h3 class="detail-label">再利用可能な資産</h3>
                     <ul class="tag-list">
-                        @foreach (var project in _selectedCandidate.SupportingProjects)
+                        @foreach (var asset in _selectedCandidate.ReuseAssets)
                         {
-                            <li class="tag">@project</li>
+                            <li class="tag tag--blue">@asset</li>
                         }
                     </ul>
                 </div>
 
                 <div class="detail-section">
-                    <h3 class="detail-label">共通要件</h3>
+                    <h3 class="detail-label">標準化に必要な整備</h3>
                     <ul class="tag-list">
-                        @foreach (var req in _selectedCandidate.CommonRequirements)
+                        @foreach (var prep in _selectedCandidate.RequiredPreparation)
                         {
-                            <li class="tag tag--blue">@req</li>
+                            <li class="tag tag--orange">@prep</li>
                         }
                     </ul>
                 </div>
 
                 <div class="detail-section">
-                    <h3 class="detail-label">主要リスク</h3>
-                    <ul class="risk-list">
-                        @foreach (var risk in _selectedCandidate.MajorRisks)
+                    <h3 class="detail-label">資産化ステージ</h3>
+                    <div class="stage-track">
+                        @for (int i = 0; i < _stages.Length; i++)
                         {
-                            <li class="risk-item">⚠ @risk</li>
+                            var idx = i;
+                            var stageClass = idx == _selectedCandidate.AssetizationStageIndex
+                                ? "stage-step stage-step--active"
+                                : idx < _selectedCandidate.AssetizationStageIndex
+                                    ? "stage-step stage-step--done"
+                                    : "stage-step";
+                            <span class="@stageClass">@_stages[idx]</span>
+                            if (idx < _stages.Length - 1)
+                            {
+                                <span class="stage-arrow">→</span>
+                            }
                         }
-                    </ul>
+                    </div>
                 </div>
 
                 <div class="detail-section">
                     <h3 class="detail-label">次に必要な経営判断</h3>
                     <p class="decision-text">@_selectedCandidate.NextManagementDecision</p>
                 </div>
-
-                <button class="btn-ask-ai" @onclick="OnAskAI">
-                    🤖 AIに詳細を質問
-                </button>
             </section>
         }
     }
@@ -118,6 +143,9 @@
     [Parameter] public EventCallback<ServiceCandidate> OnAskAIClicked { get; set; }
 
     [Inject] private IDashboardDataService DashboardDataService { get; set; } = default!;
+
+    private static readonly string[] _stages =
+        ["案件実績確認済み", "共通機能抽出済み", "標準化設計", "パイロット提供", "SaaS化判断"];
 
     private DashboardSummary? _summary;
     private ServiceCandidate? _selectedCandidate;
