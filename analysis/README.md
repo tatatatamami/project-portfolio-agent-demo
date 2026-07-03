@@ -4,9 +4,11 @@
 
 ## 責任分担
 
-Python コードは、案件数、受注率、売上、利益、平均利益率、平均工数削減率、根拠案件数、業種数、共通要件数、共通機能数を確定計算します。LLM は、経営層向け要約、事業化理由、再利用資産、標準化ギャップ、推奨事業モデル、リスク、90 日アクションなどの文章生成だけを担当します。
+Python コードは、案件数、受注率、売上、利益、平均利益率、平均工数削減率、根拠案件数、業種数、共通要件数、共通機能数、ICE 優先度を確定計算します。LLM は、経営層向け要約、事業化理由、再利用資産、標準化ギャップ、推奨事業モデル、リスク、90 日アクションなどの文章生成だけを担当します。
 
-数値は LLM に再計算させません。LLM が返した案件 ID、文書 ID、sourceId、数値は検証し、不一致がある場合は `dashboard-data.json` を出力しません。
+数値と ICE スコアは LLM に再計算させません。LLM が返した案件 ID、文書 ID、sourceId、数値は検証し、不一致がある場合は `dashboard-data.json` を出力しません。
+
+LLM または dry-run fallback が生成する文章・判断項目には、根拠となる `sourceIds` を保持します。`executiveSummarySourceIds`、`businessReasonSourceIds`、`recommendedBusinessModel.sourceIds`、`standardizationGaps[].sourceIds`、`risks[].sourceIds`、`managementDecision.decisionSourceIds` に加え、成功要因、失敗要因、90日アクション、成功条件、中止・見直し条件は `{ "text": "...", "sourceIds": [...] }` 形式で出力します。sourceId が空、または入力データに存在しない場合は検証エラーになります。
 
 ## 入力データ
 
@@ -31,9 +33,56 @@ Python コードは、案件数、受注率、売上、利益、平均利益率�
 - `analysis/output/llm-input.json`: `--save-debug-files` 指定時のみ。LLM 入力確認用。
 - `analysis/output/llm-raw-output.json`: `--save-debug-files` 指定時のみ。LLM 生出力確認用。
 
-## スコア基準
+## ICE 優先度
 
-各スコアは 0 から 100 の整数です。LLM の自由判断ではなく、Python が計算した実績値と明示基準から算出します。
+事業化候補の優先順位は ICE フレームワークで説明します。各軸は 0 から 100 の整数で、LLM の自由判断ではなく Python が実績値と明示基準から算出します。
+
+```text
+ICE Priority Score = 100 * ((Impact / 100) * (Confidence / 100) * (Ease / 100)) ** (1 / 3)
+```
+
+最終スコアは 0 から 100 に丸め、`scores.priority` と `ice.score` は同じ値にします。3 軸のうち 1 つが低い候補は、単純平均ではなく正規化幾何平均により総合スコアが下がります。
+
+### Impact
+
+事業化したときの効果を評価します。
+
+- 受注率: 20%
+- 平均利益率: 25%
+- 受注売上規模: 20%
+- 平均工数削減率: 20%
+- 対象業種数: 15%
+
+### Confidence
+
+将来の成功保証ではなく、現時点のデータから判断できる分析確信度を評価します。候補内の充足率だけでなく、根拠案件数と業種数の絶対スケールも使うため、4案件で一貫していても満点にはなりません。
+
+- 根拠案件数: 20%
+- 業種多様性: 15%
+- 根拠文書カバレッジ: 15%
+- 共通パターン一貫性: 15%
+- 成功実績の一貫性: 20%
+- データ完全性: 15%
+
+根拠案件数は 1案件=25、2案件=50、3案件=70、4案件=80、5案件=90、6案件以上=100 として評価します。業種多様性も絶対スケールで評価し、4業種は90点、5業種以上で100点です。
+
+### Ease
+
+標準サービス化、運用、販売に移しやすいかを評価します。
+
+- 再利用準備度: 30%
+- 標準化準備度: 25%
+- ギャップ負荷: 20%
+- Highリスク負荷: 15%
+- 必要投資レベル: 10%
+
+欠損値の扱いは軸ごとに変えています。Impact は利用可能な factor のウェイトを再正規化します。Confidence はデータ完全性で不確実性を表現します。Ease は情報不足そのものが実行リスクになるため、必要投資レベルなどが不明な場合は除外せず50点として扱います。
+
+Ease は候補間の相対評価だけでなく、絶対的な負荷も見ます。標準化ギャップは1件ごとに35点、Highリスクは1件ごとに12.5点を減点します。また、Highリスクが4件以上ならEase上限70、8件以上なら上限55、標準化ギャップが1件以上なら上限65として、再利用準備度だけで過度に高得点にならないようにしています。
+
+ランキングは `ice.score` の降順です。同点の場合は Impact、Confidence、Ease の順に高い候補を優先し、それでも同じ場合は `candidateId` 昇順で並べます。
+
+旧来の補助スコアも Web 詳細に残していますが、優先順位の決定には使いません。
 
 - `profitability`: 平均利益率と受注売上を重視します。
 - `reusability`: 共通機能数、対象業種数、根拠案件数を重視します。
@@ -41,8 +90,8 @@ Python コードは、案件数、受注率、売上、利益、平均利益率�
 - `recurringRevenue`: 工数削減率と運用・監視に転用しやすい共通機能数を重視します。
 - `saasReadiness`: 共通要件数、共通機能数、失注件数による標準化難度を組み合わせます。
 - `feasibility`: 失注件数と平均工数削減率から実行しやすさを見ます。
-- `confidence`: 根拠案件数、根拠文書数、業種数を重視します。
-- `priority`: 上記を重み付けした総合優先度です。
+- `confidence`: 根拠案件数、根拠文書数、業種多様性、成功実績の一貫性を重視します。
+- `priority`: ICE 優先度と同じ値です。
 
 ## セットアップ
 
@@ -94,6 +143,18 @@ Azure OpenAI を使って文章生成まで行います。
 python analysis/analyze_portfolio.py --provider azure-openai --verbose
 ```
 
+Azure AI Search に Markdown ナレッジを投入します。まず dry-run で文書数と schema を検証します。
+
+```powershell
+python analysis/upload_to_search.py --dry-run --verbose
+```
+
+実投入では `AZURE_SEARCH_ENDPOINT`、`AZURE_OPENAI_ENDPOINT`、`AZURE_OPENAI_EMBEDDING_DEPLOYMENT` を設定してください。`AZURE_AUTH_MODE=default-credential` の場合は `az login` 済みの Entra ID を使います。API Key を使う場合は `AZURE_SEARCH_API_KEY` と `AZURE_OPENAI_API_KEY` を `.env` に設定します。
+
+```powershell
+python analysis/upload_to_search.py --verbose
+```
+
 主なオプション:
 
 - `--input-dir`: 入力ディレクトリ。既定値は `test-data`。
@@ -105,6 +166,15 @@ python analysis/analyze_portfolio.py --provider azure-openai --verbose
 - `--candidate-limit`: 出力候補数の上限。
 - `--verbose`: 詳細ログを出力します。
 
+Search 投入スクリプトの主なオプション:
+
+- `--schema`: Search index schema。既定値は `test-data/ai-search/index-schema.json`。
+- `--index-name`: Search index 名。既定値は `project-knowledge-index`。
+- `--embedding-deployment`: embedding 用 Azure OpenAI deployment 名。
+- `--embedding-dimensions`: index の vector dimensions。既定値は `1536`。
+- `--expected-count`: 投入対象文書数の期待値。既定値は `38`。
+- `--dry-run`: Azure に接続せず、文書読み込みと schema 置換だけを検証します。
+
 ## 検証
 
 検証では次を確認します。
@@ -115,6 +185,10 @@ python analysis/analyze_portfolio.py --provider azure-openai --verbose
 - `ProfitJPYMillion = RevenueJPYMillion - CostJPYMillion` が成立する。
 - output の `rank`、`candidateId` が重複しない。
 - スコアが 0 から 100 の範囲にある。
+- `ice.score` が Impact、Confidence、Ease の正規化幾何平均と一致する。
+- `scores.priority` が `ice.score` と一致する。
+- 候補の並び順が ICE の降順とタイブレーク規則に一致する。
+- LLM/fallback 生成項目の `sourceIds` が空でなく、入力データに存在する。
 - output の `projectId` と `sourceId` が入力データに存在する。
 - `expected-pattern-metrics.json` とコード計算値が一致する。
 
@@ -123,7 +197,7 @@ python analysis/analyze_portfolio.py --provider azure-openai --verbose
 - LLM なしの `--dry-run` では、文章生成は deterministic なフォールバック文を使います。
 - `--provider foundry` は設定項目のみ用意しており、モデル呼び出しは未実装です。
 - Markdown 本文は全文を LLM 入力に渡さず、Front Matter と sourceId を根拠として使います。
-- 既存 Web アプリへの読み込み接続は今回の範囲外です。
+- 既存 Web アプリは `dashboard-data.json` の ICE 情報を読み込み、ランキングと候補詳細に表示します。チャット機能、Azure AI Search、Foundry IQ、DB はこの workload では変更しません。
 
 ## 本番化する場合の拡張案
 
@@ -131,4 +205,4 @@ python analysis/analyze_portfolio.py --provider azure-openai --verbose
 - Azure AI Search へ投入済み文書の引用 URL を sourceId と連携する。
 - 実行履歴を Blob Storage や Database に保存する。
 - CI で `--dry-run` と `validation-report.json` を検証する。
-- Executive Cockpit 側を `dashboard-data.json` 読み込みに差し替える。
+- ICE factor の重みを設定ファイル化し、業務部門レビュー後に調整できるようにする。

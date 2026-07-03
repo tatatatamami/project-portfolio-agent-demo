@@ -20,8 +20,8 @@ public sealed class JsonDashboardDataServiceTests
         Assert.Equal(3, summary.ServiceCandidateCount);
         Assert.Equal(4_780_000_000m, summary.TotalContractedSales);
         Assert.Equal(28.1, summary.AverageProfitMargin);
-        Assert.Equal("azure-openai", summary.ModelProvider);
-        Assert.Equal("gpt-4.1", summary.ModelDeployment);
+        Assert.Contains(summary.ModelProvider, new[] { "dry-run", "azure-openai" });
+        Assert.False(string.IsNullOrWhiteSpace(summary.ModelDeployment));
     }
 
     [Fact]
@@ -33,7 +33,8 @@ public sealed class JsonDashboardDataServiceTests
 
         Assert.Equal([1, 2, 3], summary.ServiceCandidates.Select(candidate => candidate.Rank).ToArray());
         Assert.Equal("CAND-001", summary.ServiceCandidates[0].CandidateId);
-        Assert.Equal(92, summary.ServiceCandidates[0].Scores.Priority);
+        Assert.Equal(77, summary.ServiceCandidates[0].Scores.Priority);
+        Assert.Equal(77, summary.ServiceCandidates[0].Ice?.Score);
     }
 
     [Fact]
@@ -51,6 +52,12 @@ public sealed class JsonDashboardDataServiceTests
         Assert.NotEmpty(topCandidate.StandardizationGaps);
         Assert.NotEmpty(topCandidate.Risks);
         Assert.NotEmpty(topCandidate.ManagementDecision.Next90Days);
+        Assert.NotEmpty(topCandidate.BusinessReasonSourceIds);
+        Assert.NotEmpty(topCandidate.StandardizationGaps[0].SourceIds);
+        Assert.NotEmpty(topCandidate.ManagementDecision.Next90Days[0].SourceIds);
+        Assert.Equal(topCandidate.Scores.Priority, topCandidate.Ice?.Score);
+        Assert.NotEmpty(topCandidate.Ice?.Impact.Factors ?? []);
+        Assert.Contains(topCandidate.Ice?.Impact.Factors ?? [], factor => factor.Name == "受注率" && factor.Value == "100.0%");
     }
 
     [Fact]

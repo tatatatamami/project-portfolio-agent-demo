@@ -6,25 +6,52 @@ public sealed record ServiceCandidate
     public required string Name { get; init; }
     public int Rank { get; init; }
     public string ExecutiveSummary { get; init; } = string.Empty;
+    public IReadOnlyList<string> ExecutiveSummarySourceIds { get; init; } = [];
     public string BusinessReason { get; init; } = string.Empty;
+    public IReadOnlyList<string> BusinessReasonSourceIds { get; init; } = [];
     public CandidateScores Scores { get; init; } = new();
+    public CandidateIce? Ice { get; init; }
     public CandidateMetrics Metrics { get; init; } = new();
     public RecommendedBusinessModel RecommendedBusinessModel { get; init; } = new();
     public IReadOnlyList<SupportingProject> SupportingProjects { get; init; } = [];
     public IReadOnlyList<ReusableAsset> ReusableAssets { get; init; } = [];
     public IReadOnlyList<StandardizationGap> StandardizationGaps { get; init; } = [];
-    public IReadOnlyList<string> SuccessFactors { get; init; } = [];
-    public IReadOnlyList<string> FailureFactors { get; init; } = [];
+    public IReadOnlyList<EvidenceText> SuccessFactors { get; init; } = [];
+    public IReadOnlyList<EvidenceText> FailureFactors { get; init; } = [];
     public IReadOnlyList<CandidateRisk> Risks { get; init; } = [];
     public ManagementDecision ManagementDecision { get; init; } = new();
 
-    public int Priority => Scores.Priority;
+    public int Priority => Ice?.Score ?? Scores.Priority;
     public string RecommendedBusinessModelLabel => string.Join(" → ", new[]
     {
         RecommendedBusinessModel.Current,
         RecommendedBusinessModel.Next,
         RecommendedBusinessModel.FutureOption
     }.Where(value => !string.IsNullOrWhiteSpace(value)));
+}
+
+public sealed record CandidateIce
+{
+    public int Score { get; init; }
+    public IceAxis Impact { get; init; } = new();
+    public IceAxis Confidence { get; init; } = new();
+    public IceAxis Ease { get; init; } = new();
+    public string CalculationMethod { get; init; } = string.Empty;
+    public string FormulaVersion { get; init; } = string.Empty;
+}
+
+public sealed record IceAxis
+{
+    public int Score { get; init; }
+    public string Summary { get; init; } = string.Empty;
+    public IReadOnlyList<IceFactor> Factors { get; init; } = [];
+}
+
+public sealed record IceFactor
+{
+    public string Name { get; init; } = string.Empty;
+    public string Value { get; init; } = string.Empty;
+    public int Contribution { get; init; }
 }
 
 public sealed record CandidateScores
@@ -55,6 +82,7 @@ public sealed record RecommendedBusinessModel
     public string Next { get; init; } = string.Empty;
     public string FutureOption { get; init; } = string.Empty;
     public string Rationale { get; init; } = string.Empty;
+    public IReadOnlyList<string> SourceIds { get; init; } = [];
 }
 
 public sealed record SupportingProject
@@ -86,6 +114,7 @@ public sealed record StandardizationGap
     public string Effort { get; init; } = string.Empty;
     public string Priority { get; init; } = string.Empty;
     public string Dependency { get; init; } = string.Empty;
+    public IReadOnlyList<string> SourceIds { get; init; } = [];
 }
 
 public sealed record CandidateRisk
@@ -100,9 +129,16 @@ public sealed record CandidateRisk
 public sealed record ManagementDecision
 {
     public string Decision { get; init; } = string.Empty;
+    public IReadOnlyList<string> DecisionSourceIds { get; init; } = [];
     public string InvestmentLevel { get; init; } = string.Empty;
     public string TimeHorizon { get; init; } = string.Empty;
-    public IReadOnlyList<string> Next90Days { get; init; } = [];
-    public IReadOnlyList<string> SuccessCriteria { get; init; } = [];
-    public IReadOnlyList<string> StopOrReviewCriteria { get; init; } = [];
+    public IReadOnlyList<EvidenceText> Next90Days { get; init; } = [];
+    public IReadOnlyList<EvidenceText> SuccessCriteria { get; init; } = [];
+    public IReadOnlyList<EvidenceText> StopOrReviewCriteria { get; init; } = [];
+}
+
+public sealed record EvidenceText
+{
+    public string Text { get; init; } = string.Empty;
+    public IReadOnlyList<string> SourceIds { get; init; } = [];
 }

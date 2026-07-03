@@ -16,6 +16,7 @@ DASHBOARD_DATA_SCHEMA: dict[str, Any] = {
                 "executiveSummary",
                 "businessReason",
                 "scores",
+                "ice",
                 "metrics",
                 "recommendedBusinessModel",
                 "supportingProjects",
@@ -42,7 +43,9 @@ LLM_RESPONSE_JSON_SCHEMA: dict[str, Any] = {
             "required": [
                 "name",
                 "executiveSummary",
+                "executiveSummarySourceIds",
                 "businessReason",
+                "businessReasonSourceIds",
                 "recommendedBusinessModel",
                 "reusableAssets",
                 "standardizationGaps",
@@ -54,12 +57,20 @@ LLM_RESPONSE_JSON_SCHEMA: dict[str, Any] = {
             "properties": {
                 "name": {"type": "string"},
                 "executiveSummary": {"type": "string"},
+                "executiveSummarySourceIds": {"type": "array", "items": {"type": "string"}},
                 "businessReason": {"type": "string"},
+                "businessReasonSourceIds": {"type": "array", "items": {"type": "string"}},
                 "recommendedBusinessModel": {
                     "type": "object",
                     "additionalProperties": False,
-                    "required": ["current", "next", "futureOption", "rationale"],
-                    "properties": {key: {"type": "string"} for key in ["current", "next", "futureOption", "rationale"]},
+                    "required": ["current", "next", "futureOption", "rationale", "sourceIds"],
+                    "properties": {
+                        "current": {"type": "string"},
+                        "next": {"type": "string"},
+                        "futureOption": {"type": "string"},
+                        "rationale": {"type": "string"},
+                        "sourceIds": {"type": "array", "items": {"type": "string"}},
+                    },
                 },
                 "reusableAssets": {
                     "type": "array",
@@ -84,12 +95,20 @@ LLM_RESPONSE_JSON_SCHEMA: dict[str, Any] = {
                     "items": {
                         "type": "object",
                         "additionalProperties": False,
-                        "required": ["category", "currentState", "targetState", "effort", "priority", "dependency"],
-                        "properties": {key: {"type": "string"} for key in ["category", "currentState", "targetState", "effort", "priority", "dependency"]},
+                        "required": ["category", "currentState", "targetState", "effort", "priority", "dependency", "sourceIds"],
+                        "properties": {
+                            "category": {"type": "string"},
+                            "currentState": {"type": "string"},
+                            "targetState": {"type": "string"},
+                            "effort": {"type": "string"},
+                            "priority": {"type": "string"},
+                            "dependency": {"type": "string"},
+                            "sourceIds": {"type": "array", "items": {"type": "string"}},
+                        },
                     },
                 },
-                "successFactors": {"type": "array", "items": {"type": "string"}},
-                "failureFactors": {"type": "array", "items": {"type": "string"}},
+                "successFactors": {"type": "array", "items": {"$ref": "#/$defs/evidenceText"}},
+                "failureFactors": {"type": "array", "items": {"$ref": "#/$defs/evidenceText"}},
                 "risks": {
                     "type": "array",
                     "items": {
@@ -108,16 +127,28 @@ LLM_RESPONSE_JSON_SCHEMA: dict[str, Any] = {
                 "managementDecision": {
                     "type": "object",
                     "additionalProperties": False,
-                    "required": ["decision", "investmentLevel", "timeHorizon", "next90Days", "successCriteria", "stopOrReviewCriteria"],
+                    "required": ["decision", "decisionSourceIds", "investmentLevel", "timeHorizon", "next90Days", "successCriteria", "stopOrReviewCriteria"],
                     "properties": {
                         "decision": {"type": "string"},
+                        "decisionSourceIds": {"type": "array", "items": {"type": "string"}},
                         "investmentLevel": {"type": "string"},
                         "timeHorizon": {"type": "string"},
-                        "next90Days": {"type": "array", "items": {"type": "string"}},
-                        "successCriteria": {"type": "array", "items": {"type": "string"}},
-                        "stopOrReviewCriteria": {"type": "array", "items": {"type": "string"}},
+                        "next90Days": {"type": "array", "items": {"$ref": "#/$defs/evidenceText"}},
+                        "successCriteria": {"type": "array", "items": {"$ref": "#/$defs/evidenceText"}},
+                        "stopOrReviewCriteria": {"type": "array", "items": {"$ref": "#/$defs/evidenceText"}},
                     },
                 },
+            },
+            "$defs": {
+                "evidenceText": {
+                    "type": "object",
+                    "additionalProperties": False,
+                    "required": ["text", "sourceIds"],
+                    "properties": {
+                        "text": {"type": "string"},
+                        "sourceIds": {"type": "array", "items": {"type": "string"}},
+                    },
+                }
             },
         },
     },

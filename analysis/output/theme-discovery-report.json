@@ -1,0 +1,189 @@
+{
+  "status": "completed",
+  "generatedAt": "2026-07-02T03:54:38.694316+00:00",
+  "inputProjectThemeUsed": false,
+  "similarityThreshold": 0.35,
+  "clusterCount": 3,
+  "clusters": [
+    {
+      "theme": "Discovered API Platform Modernization",
+      "projectIds": [
+        "P001",
+        "P003",
+        "P006",
+        "P011"
+      ],
+      "projectNames": [
+        "Game LiveOps API Modernization",
+        "Partner API Platform",
+        "ERP Integration Modernization",
+        "Logistics Event API Platform"
+      ],
+      "industries": [
+        "Gaming",
+        "Logistics",
+        "Manufacturing",
+        "Telecommunications"
+      ],
+      "winLoss": {
+        "Won": 3,
+        "Lost": 1
+      },
+      "topSignals": [
+        {
+          "name": "API Gateway",
+          "occurrenceCount": 4
+        },
+        {
+          "name": "OAuth / Entra ID",
+          "occurrenceCount": 4
+        },
+        {
+          "name": "Rate Limiting Policy",
+          "occurrenceCount": 4
+        },
+        {
+          "name": "API Version Management",
+          "occurrenceCount": 4
+        },
+        {
+          "name": "Distributed Observability",
+          "occurrenceCount": 4
+        },
+        {
+          "name": "Identity and Authentication",
+          "occurrenceCount": 4
+        },
+        {
+          "name": "Rate Limiting",
+          "occurrenceCount": 4
+        },
+        {
+          "name": "API Versioning",
+          "occurrenceCount": 4
+        }
+      ]
+    },
+    {
+      "theme": "Discovered Data Foundation Platform",
+      "projectIds": [
+        "P005",
+        "P007",
+        "P009",
+        "P012"
+      ],
+      "projectNames": [
+        "Predictive Maintenance Data Platform",
+        "Retail Demand Forecast Platform",
+        "Content Metadata Knowledge Platform",
+        "Fleet Analytics Lakehouse"
+      ],
+      "industries": [
+        "Logistics",
+        "Manufacturing",
+        "Media",
+        "Retail"
+      ],
+      "winLoss": {
+        "Won": 4
+      },
+      "topSignals": [
+        {
+          "name": "Semantic Model",
+          "occurrenceCount": 8
+        },
+        {
+          "name": "Lakehouse",
+          "occurrenceCount": 4
+        },
+        {
+          "name": "Data Pipelines",
+          "occurrenceCount": 4
+        },
+        {
+          "name": "Ontology",
+          "occurrenceCount": 4
+        },
+        {
+          "name": "Data Agent",
+          "occurrenceCount": 4
+        },
+        {
+          "name": "Unified Data Model",
+          "occurrenceCount": 4
+        },
+        {
+          "name": "Data Quality Rules",
+          "occurrenceCount": 4
+        },
+        {
+          "name": "Data Lineage",
+          "occurrenceCount": 4
+        }
+      ]
+    },
+    {
+      "theme": "Discovered Grounded AI Agent Operations",
+      "projectIds": [
+        "P002",
+        "P004",
+        "P008",
+        "P010"
+      ],
+      "projectNames": [
+        "Player Support AI Agent",
+        "Contact Center Knowledge Agent",
+        "Store Operations AI Assistant",
+        "Creator Support Agent"
+      ],
+      "industries": [
+        "Gaming",
+        "Media",
+        "Retail",
+        "Telecommunications"
+      ],
+      "winLoss": {
+        "Won": 3,
+        "Lost": 1
+      },
+      "topSignals": [
+        {
+          "name": "Grounded Retrieval",
+          "occurrenceCount": 4
+        },
+        {
+          "name": "Source Display",
+          "occurrenceCount": 4
+        },
+        {
+          "name": "ACL-aware Retrieval",
+          "occurrenceCount": 4
+        },
+        {
+          "name": "Evaluation Pipeline",
+          "occurrenceCount": 4
+        },
+        {
+          "name": "Human Escalation and Monitoring",
+          "occurrenceCount": 4
+        },
+        {
+          "name": "Access Control",
+          "occurrenceCount": 4
+        },
+        {
+          "name": "Citation and Grounding",
+          "occurrenceCount": 4
+        },
+        {
+          "name": "Evaluation",
+          "occurrenceCount": 4
+        }
+      ]
+    }
+  ],
+  "outputFiles": {
+    "dashboardData": "analysis/output/dashboard-data-discovered-themes.json",
+    "report": "analysis/output/theme-discovery-report.json"
+  }
+}

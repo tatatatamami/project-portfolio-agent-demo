@@ -40,8 +40,11 @@
                         }
                         else if (message.IsStreaming && message.Content.Length == 0)
                         {
-                            <span class="typing-indicator">
-                                <span></span><span></span><span></span>
+                            <span class="typing-status">
+                                回答を生成中です
+                                <span class="typing-indicator">
+                                    <span></span><span></span><span></span>
+                                </span>
                             </span>
                         }
                         else
@@ -98,16 +101,19 @@
     private readonly List<ChatMessage> _messages = [];
     private string _inputText = string.Empty;
     private bool _isSending;
+    private bool _cancelRequested;
     private string? _errorMessage;
     private string _conversationId = string.Empty;
     private CancellationTokenSource? _cts;
 
     private static readonly string[] _suggestions =
     [
-        "このサービス候補を優先する根拠は何ですか",
-        "成功案件と失注案件の違いを説明してください",
-        "サービス化前に確認すべきリスクは何ですか",
-        "次の経営アクションを3点に絞ってください"
+        "なぜこの候補が最優先なのですか",
+        "ICEスコアの内訳を説明してください",
+        "1位と2位を比較してください",
+        "SaaS化するために不足している要素は何ですか",
+        "次の90日で何を決めるべきですか",
+        "根拠案件を教えてください"
     ];
 
     protected override void OnInitialized()
@@ -129,6 +135,17 @@
     public void SetInitialMessage(string message)
     {
         _inputText = message;
+    }
+
+    public void ShowEvidenceDetails(SourceEvidenceDetails evidence)
+    {
+        _errorMessage = null;
+        _messages.Add(new ChatMessage
+        {
+            Role = ChatRole.Assistant,
+            Content = BuildEvidenceDetailsMessage(evidence)
+        });
+        StateHasChanged();
     }
 
     private async Task SendSuggestion(string suggestion)
@@ -153,6 +170,7 @@
         _errorMessage = null;
         _inputText = string.Empty;
         _isSending = true;
+        _cancelRequested = false;
 
         _messages.Add(new ChatMessage { Role = ChatRole.User, Content = text });
 
@@ -162,6 +180,7 @@
             IsStreaming = true
         };
         _messages.Add(assistantMessage);
+        StateHasChanged();
 
         _cts = new CancellationTokenSource();
         var sb = new StringBuilder();
@@ -178,7 +197,11 @@
         catch (OperationCanceledException)
         {
             if (assistantMessage.Content.Length == 0)
-                _messages.Remove(assistantMessage);
+            {
+                assistantMessage.Error = _cancelRequested
+                    ? "回答生成をキャンセルしました。"
+                    : "回答生成がタイムアウトしました。もう一度お試しください。";
+            }
         }
         catch (Exception ex)
         {
@@ -188,6 +211,7 @@
         {
             assistantMessage.IsStreaming = false;
             _isSending = false;
+            _cancelRequested = false;
             _cts?.Dispose();
             _cts = null;
             StateHasChanged();
@@ -196,6 +220,7 @@
 
     private void CancelSending()
     {
+        _cancelRequested = true;
         _cts?.Cancel();
     }
 
@@ -206,6 +231,32 @@
             .UseAdvancedExtensions()
             .Build();
         return Markdig.Markdown.ToHtml(markdown, pipeline);
+    }
+
+    private static string BuildEvidenceDetailsMessage(SourceEvidenceDetails evidence)
+    {
+        var relatedSourceIds = evidence.RelatedSourceIds.Count == 0
+            ? "該当案件の関連IDは未登録です。"
+            : string.Join(", ", evidence.RelatedSourceIds.Select(sourceId => $"`{sourceId}`"));
+
+        var projectLine = string.IsNullOrWhiteSpace(evidence.ProjectId)
+            ? "このIDに対応する案件情報は候補内で特定できませんでした。"
+            : $"`{evidence.ProjectId}`: {evidence.ProjectName}（{evidence.Industry}）";
+
+        var summaryLine = string.IsNullOrWhiteSpace(evidence.EvidenceSummary)
+            ? "候補内に共通テーマ要約は登録されていません。"
+            : evidence.EvidenceSummary;
+
+        return string.Join(Environment.NewLine, [
+            $"## 根拠ID `{evidence.SourceId}`",
+            string.Empty,
+            $"- 文書種別: {evidence.DocumentKind}",
+            $"- サービス候補: {evidence.CandidateName}",
+            $"- 対応案件: {projectLine}",
+            $"- 共通テーマ要約: {summaryLine}",
+            "- 補足: この要約はテーマ・勝敗・文書件数から作った共通説明です。個別案件の詳細は、対応案件IDを起点に確認してください。",
+            $"- 同じ案件の関連根拠ID: {relatedSourceIds}"
+        ]);
     }
 
     public void Dispose()

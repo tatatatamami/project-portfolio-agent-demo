@@ -1,12 +1,12 @@
 {
   "analysisRun": {
-    "runId": "a83994e8-37e3-4b86-80bb-867d5739e46f",
+    "runId": "ab7b8f20-0433-42a1-adef-8137a1dc9ffa",
     "status": "completed",
-    "generatedAt": "2026-07-02T03:17:48.608743+00:00",
+    "generatedAt": "2026-07-02T03:54:38.694316+00:00",
     "sourceProjectCount": 12,
-    "modelProvider": "dry-run",
+    "modelProvider": "theme-discovery-dry-run",
     "modelDeployment": "none",
-    "promptVersion": "v2-source-attribution"
+    "promptVersion": "v1-unknown-theme-discovery"
   },
   "dashboardSummary": {
     "projectCount": 12,
@@ -14,11 +14,305 @@
     "wonRevenue": 4780000000,
     "averageMarginRate": 28.1
   },
+  "themeDiscovery": {
+    "method": "jaccard-connected-components",
+    "inputProjectThemeUsed": false,
+    "evidenceFields": [
+      "RequirementName",
+      "FeatureName",
+      "RiskName"
+    ],
+    "similarityThreshold": 0.35,
+    "projectThemeById": {
+      "P006": "Discovered API Platform Modernization",
+      "P011": "Discovered API Platform Modernization",
+      "P003": "Discovered API Platform Modernization",
+      "P001": "Discovered API Platform Modernization",
+      "P004": "Discovered Grounded AI Agent Operations",
+      "P002": "Discovered Grounded AI Agent Operations",
+      "P008": "Discovered Grounded AI Agent Operations",
+      "P010": "Discovered Grounded AI Agent Operations",
+      "P005": "Discovered Data Foundation Platform",
+      "P007": "Discovered Data Foundation Platform",
+      "P012": "Discovered Data Foundation Platform",
+      "P009": "Discovered Data Foundation Platform"
+    },
+    "clusters": [
+      {
+        "theme": "Discovered API Platform Modernization",
+        "projectIds": [
+          "P001",
+          "P003",
+          "P006",
+          "P011"
+        ],
+        "projectNames": [
+          "Game LiveOps API Modernization",
+          "Partner API Platform",
+          "ERP Integration Modernization",
+          "Logistics Event API Platform"
+        ],
+        "industries": [
+          "Gaming",
+          "Logistics",
+          "Manufacturing",
+          "Telecommunications"
+        ],
+        "winLoss": {
+          "Won": 3,
+          "Lost": 1
+        },
+        "topSignals": [
+          {
+            "name": "API Gateway",
+            "occurrenceCount": 4
+          },
+          {
+            "name": "OAuth / Entra ID",
+            "occurrenceCount": 4
+          },
+          {
+            "name": "Rate Limiting Policy",
+            "occurrenceCount": 4
+          },
+          {
+            "name": "API Version Management",
+            "occurrenceCount": 4
+          },
+          {
+            "name": "Distributed Observability",
+            "occurrenceCount": 4
+          },
+          {
+            "name": "Identity and Authentication",
+            "occurrenceCount": 4
+          },
+          {
+            "name": "Rate Limiting",
+            "occurrenceCount": 4
+          },
+          {
+            "name": "API Versioning",
+            "occurrenceCount": 4
+          }
+        ]
+      },
+      {
+        "theme": "Discovered Data Foundation Platform",
+        "projectIds": [
+          "P005",
+          "P007",
+          "P009",
+          "P012"
+        ],
+        "projectNames": [
+          "Predictive Maintenance Data Platform",
+          "Retail Demand Forecast Platform",
+          "Content Metadata Knowledge Platform",
+          "Fleet Analytics Lakehouse"
+        ],
+        "industries": [
+          "Logistics",
+          "Manufacturing",
+          "Media",
+          "Retail"
+        ],
+        "winLoss": {
+          "Won": 4
+        },
+        "topSignals": [
+          {
+            "name": "Semantic Model",
+            "occurrenceCount": 8
+          },
+          {
+            "name": "Lakehouse",
+            "occurrenceCount": 4
+          },
+          {
+            "name": "Data Pipelines",
+            "occurrenceCount": 4
+          },
+          {
+            "name": "Ontology",
+            "occurrenceCount": 4
+          },
+          {
+            "name": "Data Agent",
+            "occurrenceCount": 4
+          },
+          {
+            "name": "Unified Data Model",
+            "occurrenceCount": 4
+          },
+          {
+            "name": "Data Quality Rules",
+            "occurrenceCount": 4
+          },
+          {
+            "name": "Data Lineage",
+            "occurrenceCount": 4
+          }
+        ]
+      },
+      {
+        "theme": "Discovered Grounded AI Agent Operations",
+        "projectIds": [
+          "P002",
+          "P004",
+          "P008",
+          "P010"
+        ],
+        "projectNames": [
+          "Player Support AI Agent",
+          "Contact Center Knowledge Agent",
+          "Store Operations AI Assistant",
+          "Creator Support Agent"
+        ],
+        "industries": [
+          "Gaming",
+          "Media",
+          "Retail",
+          "Telecommunications"
+        ],
+        "winLoss": {
+          "Won": 3,
+          "Lost": 1
+        },
+        "topSignals": [
+          {
+            "name": "Grounded Retrieval",
+            "occurrenceCount": 4
+          },
+          {
+            "name": "Source Display",
+            "occurrenceCount": 4
+          },
+          {
+            "name": "ACL-aware Retrieval",
+            "occurrenceCount": 4
+          },
+          {
+            "name": "Evaluation Pipeline",
+            "occurrenceCount": 4
+          },
+          {
+            "name": "Human Escalation and Monitoring",
+            "occurrenceCount": 4
+          },
+          {
+            "name": "Access Control",
+            "occurrenceCount": 4
+          },
+          {
+            "name": "Citation and Grounding",
+            "occurrenceCount": 4
+          },
+          {
+            "name": "Evaluation",
+            "occurrenceCount": 4
+          }
+        ]
+      }
+    ],
+    "similarProjectPairs": [
+      {
+        "leftProjectId": "P001",
+        "rightProjectId": "P003",
+        "similarity": 1.0
+      },
+      {
+        "leftProjectId": "P001",
+        "rightProjectId": "P006",
+        "similarity": 1.0
+      },
+      {
+        "leftProjectId": "P001",
+        "rightProjectId": "P011",
+        "similarity": 1.0
+      },
+      {
+        "leftProjectId": "P002",
+        "rightProjectId": "P004",
+        "similarity": 1.0
+      },
+      {
+        "leftProjectId": "P002",
+        "rightProjectId": "P008",
+        "similarity": 1.0
+      },
+      {
+        "leftProjectId": "P002",
+        "rightProjectId": "P010",
+        "similarity": 1.0
+      },
+      {
+        "leftProjectId": "P003",
+        "rightProjectId": "P006",
+        "similarity": 1.0
+      },
+      {
+        "leftProjectId": "P003",
+        "rightProjectId": "P011",
+        "similarity": 1.0
+      },
+      {
+        "leftProjectId": "P004",
+        "rightProjectId": "P008",
+        "similarity": 1.0
+      },
+      {
+        "leftProjectId": "P004",
+        "rightProjectId": "P010",
+        "similarity": 1.0
+      },
+      {
+        "leftProjectId": "P005",
+        "rightProjectId": "P007",
+        "similarity": 1.0
+      },
+      {
+        "leftProjectId": "P005",
+        "rightProjectId": "P009",
+        "similarity": 1.0
+      },
+      {
+        "leftProjectId": "P005",
+        "rightProjectId": "P012",
+        "similarity": 1.0
+      },
+      {
+        "leftProjectId": "P006",
+        "rightProjectId": "P011",
+        "similarity": 1.0
+      },
+      {
+        "leftProjectId": "P007",
+        "rightProjectId": "P009",
+        "similarity": 1.0
+      },
+      {
+        "leftProjectId": "P007",
+        "rightProjectId": "P012",
+        "similarity": 1.0
+      },
+      {
+        "leftProjectId": "P008",
+        "rightProjectId": "P010",
+        "similarity": 1.0
+      },
+      {
+        "leftProjectId": "P009",
+        "rightProjectId": "P012",
+        "similarity": 1.0
+      }
+    ]
+  },
   "candidates": [
     {
       "candidateId": "CAND-001",
       "rank": 1,
-      "name": "AIデータ活用基盤オファリング",
+      "name": "Discovered Data Foundation Platform オファリング",
       "executiveSummary": "ICE優先度 77 の候補。Impact 70、Confidence 94、Ease 70 をPython集計で算出した。",
       "executiveSummarySourceIds": [
         "DOC-P005-RETRO",
@@ -156,7 +450,7 @@
         "current": "Standard Offering",
         "next": "Managed Service",
         "futureOption": "SaaS",
-        "rationale": "データ基盤標準テンプレートを先行商品化し、運用監視を継続収益化する余地が大きい。",
+        "rationale": "共通要件と再利用部品を段階的に標準化できる。",
         "sourceIds": [
           "DOC-P005-RETRO",
           "DOC-P005-RFP",
@@ -168,7 +462,7 @@
           "projectId": "P005",
           "projectName": "Predictive Maintenance Data Platform",
           "industry": "Manufacturing",
-          "evidenceSummary": "AI-ready Data Foundation に関する Won 案件。3 件の案件文書を根拠として利用。",
+          "evidenceSummary": "Discovered Data Foundation Platform に関する Won 案件。3 件の案件文書を根拠として利用。",
           "sourceIds": [
             "DOC-P005-RETRO",
             "DOC-P005-RFP",
@@ -179,7 +473,7 @@
           "projectId": "P007",
           "projectName": "Retail Demand Forecast Platform",
           "industry": "Retail",
-          "evidenceSummary": "AI-ready Data Foundation に関する Won 案件。3 件の案件文書を根拠として利用。",
+          "evidenceSummary": "Discovered Data Foundation Platform に関する Won 案件。3 件の案件文書を根拠として利用。",
           "sourceIds": [
             "DOC-P007-RETRO",
             "DOC-P007-RFP",
@@ -190,7 +484,7 @@
           "projectId": "P009",
           "projectName": "Content Metadata Knowledge Platform",
           "industry": "Media",
-          "evidenceSummary": "AI-ready Data Foundation に関する Won 案件。3 件の案件文書を根拠として利用。",
+          "evidenceSummary": "Discovered Data Foundation Platform に関する Won 案件。3 件の案件文書を根拠として利用。",
           "sourceIds": [
             "DOC-P009-RETRO",
             "DOC-P009-RFP",
@@ -201,7 +495,7 @@
           "projectId": "P012",
           "projectName": "Fleet Analytics Lakehouse",
           "industry": "Logistics",
-          "evidenceSummary": "AI-ready Data Foundation に関する Won 案件。3 件の案件文書を根拠として利用。",
+          "evidenceSummary": "Discovered Data Foundation Platform に関する Won 案件。3 件の案件文書を根拠として利用。",
           "sourceIds": [
             "DOC-P012-RETRO",
             "DOC-P012-RFP",
@@ -710,7 +1004,7 @@
     {
       "candidateId": "CAND-002",
       "rank": 2,
-      "name": "APIモダナイゼーション・アクセラレータ",
+      "name": "Discovered API Platform Modernization オファリング",
       "executiveSummary": "ICE優先度 63 の候補。Impact 50、Confidence 90、Ease 55 をPython集計で算出した。",
       "executiveSummarySourceIds": [
         "DOC-P001-RETRO",
@@ -848,7 +1142,7 @@
         "current": "Standard Offering",
         "next": "Managed Service",
         "futureOption": "SaaS",
-        "rationale": "移行診断、API標準部品、運用支援を段階的に標準化できる。",
+        "rationale": "共通要件と再利用部品を段階的に標準化できる。",
         "sourceIds": [
           "DOC-P001-RETRO",
           "DOC-P001-RFP",
@@ -860,7 +1154,7 @@
           "projectId": "P001",
           "projectName": "Game LiveOps API Modernization",
           "industry": "Gaming",
-          "evidenceSummary": "API Modernization に関する Won 案件。3 件の案件文書を根拠として利用。",
+          "evidenceSummary": "Discovered API Platform Modernization に関する Won 案件。3 件の案件文書を根拠として利用。",
           "sourceIds": [
             "DOC-P001-RETRO",
             "DOC-P001-RFP",
@@ -871,7 +1165,7 @@
           "projectId": "P003",
           "projectName": "Partner API Platform",
           "industry": "Telecommunications",
-          "evidenceSummary": "API Modernization に関する Won 案件。3 件の案件文書を根拠として利用。",
+          "evidenceSummary": "Discovered API Platform Modernization に関する Won 案件。3 件の案件文書を根拠として利用。",
           "sourceIds": [
             "DOC-P003-RETRO",
             "DOC-P003-RFP",
@@ -882,7 +1176,7 @@
           "projectId": "P006",
           "projectName": "ERP Integration Modernization",
           "industry": "Manufacturing",
-          "evidenceSummary": "API Modernization に関する Lost 案件。3 件の案件文書を根拠として利用。",
+          "evidenceSummary": "Discovered API Platform Modernization に関する Lost 案件。3 件の案件文書を根拠として利用。",
           "sourceIds": [
             "DOC-P006-BIDR",
             "DOC-P006-PROP",
@@ -893,7 +1187,7 @@
           "projectId": "P011",
           "projectName": "Logistics Event API Platform",
           "industry": "Logistics",
-          "evidenceSummary": "API Modernization に関する Won 案件。3 件の案件文書を根拠として利用。",
+          "evidenceSummary": "Discovered API Platform Modernization に関する Won 案件。3 件の案件文書を根拠として利用。",
           "sourceIds": [
             "DOC-P011-RETRO",
             "DOC-P011-RFP",
@@ -1402,7 +1696,7 @@
     {
       "candidateId": "CAND-003",
       "rank": 3,
-      "name": "AIエージェント本番化・運用プラットフォーム",
+      "name": "Discovered Grounded AI Agent Operations オファリング",
       "executiveSummary": "ICE優先度 58 の候補。Impact 40、Confidence 90、Ease 55 をPython集計で算出した。",
       "executiveSummarySourceIds": [
         "DOC-P002-RETRO",
@@ -1537,10 +1831,10 @@
         "wonRevenue": 1090000000
       },
       "recommendedBusinessModel": {
-        "current": "Managed Service",
-        "next": "Standard Offering",
+        "current": "Standard Offering",
+        "next": "Managed Service",
         "futureOption": "SaaS",
-        "rationale": "評価、監視、安全対策を運用サービスとして束ねると再利用しやすい。",
+        "rationale": "共通要件と再利用部品を段階的に標準化できる。",
         "sourceIds": [
           "DOC-P002-RETRO",
           "DOC-P002-RFP",
@@ -1552,7 +1846,7 @@
           "projectId": "P002",
           "projectName": "Player Support AI Agent",
           "industry": "Gaming",
-          "evidenceSummary": "AI Agent Production に関する Won 案件。3 件の案件文書を根拠として利用。",
+          "evidenceSummary": "Discovered Grounded AI Agent Operations に関する Won 案件。3 件の案件文書を根拠として利用。",
           "sourceIds": [
             "DOC-P002-RETRO",
             "DOC-P002-RFP",
@@ -1563,7 +1857,7 @@
           "projectId": "P004",
           "projectName": "Contact Center Knowledge Agent",
           "industry": "Telecommunications",
-          "evidenceSummary": "AI Agent Production に関する Won 案件。3 件の案件文書を根拠として利用。",
+          "evidenceSummary": "Discovered Grounded AI Agent Operations に関する Won 案件。3 件の案件文書を根拠として利用。",
           "sourceIds": [
             "DOC-P004-RETRO",
             "DOC-P004-RFP",
@@ -1574,7 +1868,7 @@
           "projectId": "P008",
           "projectName": "Store Operations AI Assistant",
           "industry": "Retail",
-          "evidenceSummary": "AI Agent Production に関する Won 案件。3 件の案件文書を根拠として利用。",
+          "evidenceSummary": "Discovered Grounded AI Agent Operations に関する Won 案件。3 件の案件文書を根拠として利用。",
           "sourceIds": [
             "DOC-P008-RETRO",
             "DOC-P008-RFP",
@@ -1585,7 +1879,7 @@
           "projectId": "P010",
           "projectName": "Creator Support Agent",
           "industry": "Media",
-          "evidenceSummary": "AI Agent Production に関する Lost 案件。3 件の案件文書を根拠として利用。",
+          "evidenceSummary": "Discovered Grounded AI Agent Operations に関する Lost 案件。3 件の案件文書を根拠として利用。",
           "sourceIds": [
             "DOC-P010-BIDR",
             "DOC-P010-PROP",

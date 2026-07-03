@@ -14,7 +14,7 @@ from metrics import build_dashboard_candidate, build_metrics
 from validators import build_validation_report, validate_dashboard, validate_inputs
 
 
-PROMPT_VERSION = "v1"
+PROMPT_VERSION = "v2-source-attribution"
 
 
 def main() -> int:
@@ -98,6 +98,7 @@ def _candidate_llm_input(candidate_summary: dict) -> dict:
         "theme": candidate_summary["theme"],
         "metrics": candidate_summary["metrics"],
         "scores": candidate_summary["scores"],
+        "ice": candidate_summary["ice"],
         "commonRequirements": candidate_summary["commonRequirements"],
         "commonFeatures": candidate_summary["commonFeatures"],
         "commonRisks": candidate_summary["commonRisks"],

@@ -65,7 +65,7 @@
                             <span class="candidate-sub-metrics">根拠案件 @(candidate.Metrics.SupportingProjectCount)件 ｜ 受注率 @(candidate.Metrics.WinRate.ToString("F0"))% ｜ 利益率 @(candidate.Metrics.AverageMarginRate.ToString("F1"))%</span>
                             <span class="candidate-biz-model">▶ @candidate.RecommendedBusinessModelLabel</span>
                         </div>
-                        <span class="candidate-priority-badge">優先度 @(candidate.Priority.ToString("F0"))</span>
+                        <span class="candidate-priority-badge">ICE優先度 @(candidate.Priority.ToString("F0"))</span>
                     </li>
                 }
             </ol>
@@ -87,14 +87,17 @@
                 <div class="detail-rationale">
                     <h3 class="detail-label">なぜ事業化候補なのか</h3>
                     <p class="rationale-text">@_selectedCandidate.BusinessReason</p>
+                    @RenderSourceTrace(_selectedCandidate.BusinessReasonSourceIds)
                     <p class="ai-generated-note">AI生成: @_selectedCandidate.ExecutiveSummary</p>
+                    @RenderSourceTrace(_selectedCandidate.ExecutiveSummarySourceIds)
                 </div>
 
                 <div class="detail-section">
                     <h3 class="detail-label">事業性評価</h3>
+                    <p class="ice-note" title="ICE Priority Score = 100 * ((Impact / 100) * (Confidence / 100) * (Ease / 100)) ** (1 / 3)">ICE優先度はImpact、Confidence、Easeの3軸を掛け合わせて0〜100へ正規化した評価です。</p>
                     <div class="priority-metrics-grid">
                         <div class="priority-metric-card priority-metric-card--highlight">
-                            <span class="pm-label">事業化優先度</span>
+                            <span class="pm-label">ICE優先度</span>
                             <span class="pm-value">@(_selectedCandidate.Priority.ToString("F0"))<span class="pm-unit">/ 100</span></span>
                         </div>
                         <div class="priority-metric-card">
@@ -102,10 +105,38 @@
                             <span class="pm-value">@(_selectedCandidate.Metrics.SupportingProjectCount)<span class="pm-unit">件・@(_selectedCandidate.Metrics.IndustryCount)業種</span></span>
                         </div>
                         <div class="priority-metric-card">
-                            <span class="pm-label">信頼度</span>
-                            <span class="pm-value">@(_selectedCandidate.Scores.Confidence)<span class="pm-unit">/ 100</span></span>
+                            <span class="pm-label">計算方式</span>
+                            <span class="pm-value pm-value--method">@(string.IsNullOrWhiteSpace(_selectedCandidate.Ice?.CalculationMethod) ? "legacy" : _selectedCandidate.Ice.CalculationMethod)</span>
                         </div>
                     </div>
+                    @if (_selectedCandidate.Ice is not null)
+                    {
+                        <div class="ice-axis-grid">
+                            @foreach (var axis in GetIceAxisItems(_selectedCandidate))
+                            {
+                                <article class="ice-axis-card">
+                                    <div class="ice-axis-header">
+                                        <div>
+                                            <span class="ice-axis-name">@axis.Name</span>
+                                            <span class="ice-axis-subtitle">@axis.Subtitle</span>
+                                        </div>
+                                        <span class="ice-axis-score">@axis.Axis.Score</span>
+                                    </div>
+                                    <p>@axis.Axis.Summary</p>
+                                    <ul class="ice-factor-list">
+                                        @foreach (var factor in axis.Axis.Factors.Take(3))
+                                        {
+                                            <li>
+                                                <span>@factor.Name</span>
+                                                <strong>@factor.Value</strong>
+                                                <em>+@factor.Contribution</em>
+                                            </li>
+                                        }
+                                    </ul>
+                                </article>
+                            }
+                        </div>
+                    }
                     <div class="sub-metrics-row">
                         <span>受注率 @(_selectedCandidate.Metrics.WinRate.ToString("F1"))%</span>
                         <span>平均利益率 @(_selectedCandidate.Metrics.AverageMarginRate.ToString("F1"))%</span>
@@ -150,6 +181,7 @@
                                 <span class="readiness-score">@asset.ReadinessScore</span>
                                 <p>@asset.CurrentState</p>
                                 <p class="next-action">次: @asset.NextAction</p>
+                                @RenderSourceTrace(asset.SourceIds)
                             </article>
                         }
                     </div>
@@ -166,6 +198,7 @@
                                 <p>目標: @gap.TargetState</p>
                                 <span>優先度 @gap.Priority / 工数 @gap.Effort</span>
                                 <span>依存: @gap.Dependency</span>
+                                @RenderSourceTrace(gap.SourceIds)
                             </article>
                         }
                     </div>
@@ -180,6 +213,7 @@
                                 <strong>@risk.Name</strong>
                                 <span>影響: @risk.Impact / 発生可能性: @risk.Likelihood</span>
                                 <p>@risk.Mitigation</p>
+                                @RenderSourceTrace(risk.SourceIds)
                             </li>
                         }
                     </ul>
@@ -195,11 +229,13 @@
                         <span>@_selectedCandidate.RecommendedBusinessModel.FutureOption</span>
                     </div>
                     <p class="rationale-text">@_selectedCandidate.RecommendedBusinessModel.Rationale</p>
+                    @RenderSourceTrace(_selectedCandidate.RecommendedBusinessModel.SourceIds)
                 </div>
 
                 <div class="detail-section">
                     <h3 class="detail-label">次に必要な経営判断</h3>
                     <p class="decision-text">@_selectedCandidate.ManagementDecision.Decision</p>
+                    @RenderSourceTrace(_selectedCandidate.ManagementDecision.DecisionSourceIds)
                     <div class="decision-meta">
                         <span>投資規模: @_selectedCandidate.ManagementDecision.InvestmentLevel</span>
                         <span>時間軸: @_selectedCandidate.ManagementDecision.TimeHorizon</span>
@@ -210,7 +246,10 @@
                             <ul>
                                 @foreach (var action in _selectedCandidate.ManagementDecision.Next90Days)
                                 {
-                                    <li>@action</li>
+                                    <li>
+                                        <span>@action.Text</span>
+                                        @RenderSourceTrace(action.SourceIds)
+                                    </li>
                                 }
                             </ul>
                         </div>
@@ -219,7 +258,10 @@
                             <ul>
                                 @foreach (var criterion in _selectedCandidate.ManagementDecision.SuccessCriteria)
                                 {
-                                    <li>@criterion</li>
+                                    <li>
+                                        <span>@criterion.Text</span>
+                                        @RenderSourceTrace(criterion.SourceIds)
+                                    </li>
                                 }
                             </ul>
                         </div>
@@ -228,7 +270,10 @@
                             <ul>
                                 @foreach (var criterion in _selectedCandidate.ManagementDecision.StopOrReviewCriteria)
                                 {
-                                    <li>@criterion</li>
+                                    <li>
+                                        <span>@criterion.Text</span>
+                                        @RenderSourceTrace(criterion.SourceIds)
+                                    </li>
                                 }
                             </ul>
                         </div>
@@ -243,7 +288,10 @@
                             <ul>
                                 @foreach (var factor in _selectedCandidate.SuccessFactors)
                                 {
-                                    <li>@factor</li>
+                                    <li>
+                                        <span>@factor.Text</span>
+                                        @RenderSourceTrace(factor.SourceIds)
+                                    </li>
                                 }
                             </ul>
                         </div>
@@ -252,7 +300,10 @@
                             <ul>
                                 @foreach (var factor in _selectedCandidate.FailureFactors)
                                 {
-                                    <li>@factor</li>
+                                    <li>
+                                        <span>@factor.Text</span>
+                                        @RenderSourceTrace(factor.SourceIds)
+                                    </li>
                                 }
                             </ul>
                         </div>
@@ -265,6 +316,7 @@
 
 @code {
     [Parameter] public EventCallback<ServiceCandidate> OnAskAIClicked { get; set; }
+    [Parameter] public EventCallback<SourceEvidenceDetails> OnSourceIdClicked { get; set; }
 
     [Inject] private IDashboardDataService DashboardDataService { get; set; } = default!;
 
@@ -295,4 +347,66 @@
         ("実現性", candidate.Scores.Feasibility),
         ("信頼度", candidate.Scores.Confidence)
     ];
+
+    private static IReadOnlyList<(string Name, string Subtitle, IceAxis Axis)> GetIceAxisItems(ServiceCandidate candidate) =>
+        candidate.Ice is null
+            ? []
+            :
+            [
+                ("Impact", "事業効果", candidate.Ice.Impact),
+                ("Confidence", "分析確信度", candidate.Ice.Confidence),
+                ("Ease", "実行容易性", candidate.Ice.Ease)
+            ];
+
+    private RenderFragment RenderSourceTrace(IReadOnlyList<string> sourceIds) => @<details class="source-trace">
+        <summary>根拠 @sourceIds.Count 件</summary>
+        <div class="source-id-list">
+            @foreach (var sourceId in sourceIds.Take(12))
+            {
+                <button type="button" class="source-id-chip" @onclick="() => ShowSourceEvidenceAsync(sourceId)">@sourceId</button>
+            }
+            @if (sourceIds.Count > 12)
+            {
+                <span class="source-id-more">+@(sourceIds.Count - 12) 件</span>
+            }
+        </div>
+    </details>;
+
+    private async Task ShowSourceEvidenceAsync(string sourceId)
+    {
+        if (_selectedCandidate is null)
+        {
+            return;
+        }
+
+        await OnSourceIdClicked.InvokeAsync(CreateSourceEvidenceDetails(_selectedCandidate, sourceId));
+    }
+
+    private static SourceEvidenceDetails CreateSourceEvidenceDetails(ServiceCandidate candidate, string sourceId)
+    {
+        var project = candidate.SupportingProjects.FirstOrDefault(project => project.SourceIds.Contains(sourceId, StringComparer.OrdinalIgnoreCase))
+            ?? candidate.SupportingProjects.FirstOrDefault(project => !string.IsNullOrWhiteSpace(project.ProjectId) && sourceId.Contains(project.ProjectId, StringComparison.OrdinalIgnoreCase));
+
+        return new SourceEvidenceDetails
+        {
+            SourceId = sourceId,
+            DocumentKind = GetSourceDocumentKind(sourceId),
+            CandidateId = candidate.CandidateId,
+            CandidateName = candidate.Name,
+            ProjectId = project?.ProjectId ?? string.Empty,
+            ProjectName = project?.ProjectName ?? string.Empty,
+            Industry = project?.Industry ?? string.Empty,
+            EvidenceSummary = project?.EvidenceSummary ?? string.Empty,
+            RelatedSourceIds = project?.SourceIds ?? []
+        };
+    }
+
+    private static string GetSourceDocumentKind(string sourceId)
+    {
+        if (sourceId.EndsWith("-RFP", StringComparison.OrdinalIgnoreCase)) return "RFP / 要件文書";
+        if (sourceId.EndsWith("-SOL", StringComparison.OrdinalIgnoreCase)) return "提案・ソリューション文書";
+        if (sourceId.EndsWith("-RETRO", StringComparison.OrdinalIgnoreCase)) return "振り返り・実績文書";
+
+        return "分析根拠文書";
+    }
 }

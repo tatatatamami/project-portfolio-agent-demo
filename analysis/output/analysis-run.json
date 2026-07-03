@@ -1,12 +1,12 @@
 {
-  "runId": "c69f97f7-f669-462b-9a5a-969b287eaef8",
+  "runId": "a83994e8-37e3-4b86-80bb-867d5739e46f",
   "status": "passed",
-  "generatedAt": "2026-07-01T23:04:41.349772+00:00",
+  "generatedAt": "2026-07-02T03:17:48.608743+00:00",
   "inputDir": "test-data",
   "outputDir": "analysis\\output",
-  "modelProvider": "azure-openai",
-  "modelDeployment": "gpt-4.1",
-  "llmCallCount": 3,
+  "modelProvider": "dry-run",
+  "modelDeployment": "none",
+  "llmCallCount": 0,
   "candidateCount": 3,
   "source": {
     "projectCount": 12,
